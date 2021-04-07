@@ -1,21 +1,6 @@
-## CS152 Questions
+# CS152 Questions
 
-1. Compile assignments on local Mac and submit, any difference?
-	- Or is possible to set up local Ubuntu
-		- Ubuntu 20.04.2 LTS
-		- clang: 10.0.0-4	
-
-2. Program Makefile to also execute ./a.out ?
-
-EXECUTABLES = sketch my_echo
-OBJECTS = hello.o expression_example.o
-CFLAGS = -g -Wall -O0
-LDLIBS=
-CC=clang
-
-run:
-	./sketch
-
+git config --edit 
 
 
 
