@@ -13,13 +13,13 @@ int main(int argc, char *argv[]) {
             bags_of_cat_food(100, 180, 200));
     
     printf("\n === testing fractional_part ===\n");
-    printf("#1: fraction 3 / 2 => 0.5 \n >> %.1f \n\n",
+    printf("#1: fraction 3 / 2 => 0.5 \n >> %f \n\n",
             fractional_part(3,2));
-    printf("#2: fraction 5 / 2 -> 0.5 \n >> %.1f \n\n",
+    printf("#2: fraction 5 / 2 -> 0.5 \n >> %f \n\n",
             fractional_part(5,2));
-    printf("#3: fraction 5 / 3 => 0.6667 \n >> %.4f \n\n",
+    printf("#3: fraction 5 / 3 => 0.666... \n >> %f \n\n",
             fractional_part(5,3));
-    printf("#4: fraction 10 / 10 => 0 \n >> %.0f \n\n",
+    printf("#4: fraction 10 / 10 => 0.0 \n >> %f \n\n",
             fractional_part(10, 10));
 
     printf("\n === testing is_buoyant ===\n");
