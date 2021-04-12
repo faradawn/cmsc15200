@@ -62,3 +62,18 @@ int main(int arc, char** argv) {
 
 
 
+// lecture 6 - while, for, do 
+// do and input 
+int react_to_key(){
+	int x;
+	int count = 3;
+	int ans = 1;
+	do {
+		printf("input please: \n");
+		scanf("%d", &x);
+		count --;
+		
+	} while (count > 0);
+	return ans*x;
+}
+
