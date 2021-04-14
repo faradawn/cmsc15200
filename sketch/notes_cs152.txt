@@ -1,6 +1,7 @@
-#include <stdio.h>
-#include <math.h>
-
+// errors:
+	missing separator: tab, not 4 space, (optional: tab detection off)
+	symbol undefined: need compile two files together 
+	
 // lecture 5 - functions
 int sqr(int a, int b);
 
