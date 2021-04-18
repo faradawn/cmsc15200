@@ -53,16 +53,58 @@ double calc_pi(unsigned long long int nslices) {
 
 // 3 - computes the square root of s using the Bakhshali sequence
 double bakhshali(double s, double guess, double epsilon, unsigned int max_iters){
+    double x = guess;
+    double an;
+    double bn;
+    while (max_iters>0) {
+        if (fabs(x*x-s) < epsilon) {
+            break;
+        }
+        an = (s-x*x)/(2*x);
+        bn = x+an;
+        x = bn - an*an/(2*bn);
+        max_iters--;
+    }
+    return x;
+}
 
+void print_line(unsigned int length){
+    for (int i = 0; i < length; i ++){
+        printf("*");
+    }
+    printf("\n");
 }
 
 // 4- draws a half-filled square with given side length and target part
 void half_filled_square(unsigned int side_length, int upper_right){
-    
+    // error if not 1 or 0
+    print_line(side_length);
+    for (int i = 0; i < side_length-2; i++) {
+        printf("*");
+        for (int j = 0; j < side_length-2; j++) {
+            if (upper_right) {
+                if (j <= i){
+                    printf(" ");
+                } else {
+                    printf("*");
+                }
+            } else {
+                if (j < i) {
+                    printf("*");
+                } else {
+                    printf(" ");
+                }
+            }
+        }
+        printf("*\n");
+    }
+    print_line(side_length);
+
 }
 
 int main(){
-    printf("\n final %f", calc_pi(1000));
+    printf("\n final %f \n", bakhshali(256, 1, 0.1, 1));
+    half_filled_square(10, 1);
     return 0;
     
 }
