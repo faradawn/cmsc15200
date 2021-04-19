@@ -24,7 +24,7 @@ unsigned char first_letter(unsigned int digit){
             return 'n';
         default:
             if (digit<0 || digit>9) {
-                fprintf(stderr, "Input not within 0-9, %u", digit);
+                fprintf(stderr, "Input not within 0-9, %u \n", digit);
 			    exit(1);
             } else {
                 return 'z';
@@ -53,6 +53,12 @@ double calc_pi(unsigned long long int nslices) {
 
 // 3 - computes the square root of s using the Bakhshali sequence
 double bakhshali(double s, double guess, double epsilon, unsigned int max_iters){
+    // error if s<0 or epsilon<0
+    if (s < 0 || epsilon < 0) {
+        fprintf(stderr, "error: s and epsilon should > 0 \n");
+        exit(1);
+    }
+
     double x = guess;
     double an;
     double bn;
@@ -68,6 +74,7 @@ double bakhshali(double s, double guess, double epsilon, unsigned int max_iters)
     return x;
 }
 
+// helper function that prints a line of aesterisks
 void print_line(unsigned int length){
     for (int i = 0; i < length; i ++){
         printf("*");
@@ -78,6 +85,11 @@ void print_line(unsigned int length){
 // 4- draws a half-filled square with given side length and target part
 void half_filled_square(unsigned int side_length, int upper_right){
     // error if not 1 or 0
+    if (upper_right < 0 || upper_right > 1) {
+        fprintf(stderr, "error: upper_right should be 0 or 1 \n");
+        exit(1);
+    }
+
     print_line(side_length);
     for (int i = 0; i < side_length-2; i++) {
         printf("*");
@@ -99,5 +111,4 @@ void half_filled_square(unsigned int side_length, int upper_right){
         printf("*\n");
     }
     print_line(side_length);
-
 }
