@@ -24,7 +24,7 @@ unsigned char first_letter(unsigned int digit){
             return 'n';
         default:
             if (digit<0 || digit>9) {
-                fprintf(stderr, "Input not within 0-9 %u", digit);
+                fprintf(stderr, "Input not within 0-9, %u", digit);
 			    exit(1);
             } else {
                 return 'z';
@@ -100,11 +100,4 @@ void half_filled_square(unsigned int side_length, int upper_right){
     }
     print_line(side_length);
 
-}
-
-int main(){
-    printf("\n final %f \n", bakhshali(256, 1, 0.1, 1));
-    half_filled_square(10, 1);
-    return 0;
-    
 }
