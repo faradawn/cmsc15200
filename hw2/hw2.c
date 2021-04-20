@@ -27,7 +27,7 @@ unsigned char first_letter(unsigned int digit){
                 fprintf(stderr, "Input not within 0-9, %u \n", digit);
 			    exit(1);
             } else {
-                return 'z';
+                return 'z'; // case 0
             }
     }
 }

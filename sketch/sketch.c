@@ -2,18 +2,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-int react_to_key(){
-	for(unsigned int i = 0; i<3; i++){
-		printf(">> i is %d\n", i);
-	}
-	return 1;
-}
-
 
 int main(int arc, char** argv) {
-	
-	printf("his");
-	printf(">> ans is %d \n", react_to_key());
+    short a[] = {1, 2 ,3};
+    a[0] = 4;
+    *(a+1) = 5;
+    printf(">> %hd \n", a[0]);
+    printf(">> %hd \n", a[1]);
 	return 0;
 }
 
