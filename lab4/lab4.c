@@ -1,25 +1,29 @@
-// #include "lab4.h"
+#include "lab4.h"
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <limits.h>
 
+
+// set min with min int
 void find_min_max(int a[], int a_len, int* min_ptr, int* max_ptr){
+    // initialize max and min
     *min_ptr = a[0];
-    *max_ptr = a[a_len];
-    // how to use limits.h ?
+    *max_ptr = a[a_len-1];
+    // find min
     for (int i = 0; i < a_len; i++) {
         if (a[i] < *min_ptr) {
             *min_ptr = a[i];
         }
     }
+
     for (int j = a_len-1; j >= 0; j--) {
         if (a[j] > *max_ptr) {
             *max_ptr = a[j];
         }
     }
 }
-
+// add null in end 
  char* make_star_string(int n) {
      char* arr = (char*)malloc(n*sizeof(char)); 
      for (int i = 0; i < n; i++){
@@ -27,7 +31,7 @@ void find_min_max(int a[], int a_len, int* min_ptr, int* max_ptr){
      }
      return arr;
  }
-
+// go through one pass -> [2 2 3 1]
 int* make_histogram(int a[], int a_len, int* hist_len_ptr) {
     int i, j, temp, count;
 
@@ -72,7 +76,7 @@ int* make_histogram(int a[], int a_len, int* hist_len_ptr) {
     int* p = &hey;
     return p;
 }
-
+// free afterwards 
 int main(){
     int a[] = {3,2,2,4,3,5};
     int b[] = {3,2,2,2,4,6,3,5,6};
