@@ -15,7 +15,7 @@ void find_min_max(int a[], int a_len, int* min_ptr, int* max_ptr){
     for (int i = 0; i < a_len; i++) {
         if (a[i] < *min_ptr) {
             *min_ptr = a[i];
-        } if (a[i] < *max_ptr) {
+        } if (a[i] > *max_ptr) {
             *max_ptr = a[i];
         }
     }
@@ -41,7 +41,7 @@ void find_min_max(int a[], int a_len, int* min_ptr, int* max_ptr){
 int* make_histogram(int a[], int a_len, int* hist_len_ptr) {
     int max, min, count;
     find_min_max(a, a_len, &min, &max);
-    *hist_len_ptr = max - min;
+    *hist_len_ptr = max - min + 1;
 
     // initialize histogram array with max-min length
     int* arr = (int*)malloc(sizeof(int) * *hist_len_ptr);
@@ -50,21 +50,24 @@ int* make_histogram(int a[], int a_len, int* hist_len_ptr) {
         exit(1);
     }
 
+    printf("min is %d \n", min);
+    printf("hist now is %d %d %d \n", a[0], a[1], a[2]);
     // make the histogram array
     for (int i = 0; i < *hist_len_ptr; i++) {
         for (int j = 0; j < *hist_len_ptr; j++) {
             if (a[j] == min+i) {
                 count ++;
-            }
-            arr[i] = count;
-            count = 0;
+            }    
         }
+        arr[i] = count;
+        count = 0;
     }
 
     // test
     for (int i = 0; i < *hist_len_ptr; i++) {
         printf("%d ", arr[i]);
     }
+    printf("\n last element %d \n", arr[*hist_len_ptr-1]);
 
     return arr;
 }
@@ -83,9 +86,11 @@ int main(){
     int min, max;
     find_min_max(a, 8, &min, &max);
     printf("min and max are %d, %d \n", min, max);
-    
-    int hist_len, hist_arr;
-    hist_arr = make_histogram(a, 8, &hist_len);
-    print_histogram_visualization(hist_arr, hist_len);
+
+    int hist_len;
+    int* hist_array = make_histogram(a, 8, &hist_len);
+    print_histogram_visualization(hist_array, hist_len);
+    free(hist_array);
+
     return 0;
 }
