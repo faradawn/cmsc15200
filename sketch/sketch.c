@@ -4,11 +4,10 @@
 
 
 int main(int arc, char** argv) {
-    short a[] = {1, 2 ,3};
-    a[0] = 4;
-    *(a+1) = 5;
-    printf(">> %hd \n", a[0]);
-    printf(">> %hd \n", a[1]);
-	return 0;
+    char s[] = {'a', 'b', 'c', '\0'};
+    char s1[] = "abc";
+    char esc = '\0';
+    printf(">> %c \n", esc); 
+    
 }
 

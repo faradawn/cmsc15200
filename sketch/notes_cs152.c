@@ -154,7 +154,12 @@ void array1() {
     printf(">> %hd \n", a[1]);
 }
 
-
+// strings from Morgan
+void string_stuff(){
+    char s1[] = "abc"; // "" easy declare, <string.h>,
+    // s1[3] = null, s1[4] out of bound
+    char s2[] = {'a','b','c','\0'};
+}
 
 
 int main() {
