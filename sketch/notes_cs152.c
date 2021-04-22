@@ -9,6 +9,10 @@
         (optional: tab detection off)
 	"symbol undefined:"
         use make file, compile two files together 
+
+    "Segmentation Fault 11":
+        int i, j; -> not zero!!!!
+        int* array = mallc
 */
 
 
