@@ -1,6 +1,7 @@
 #include "hw3.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // counts the number of unique elements in an array
 int count_unique_elements(int in[], unsigned int inlen) {
@@ -38,6 +39,7 @@ int* rle_encode(int* in, unsigned int inlen, unsigned int* outlen) {
     return out_arr;
 }
 
+// decodes the given array
 void rle_decode(int* in, unsigned int inlen, int** out, unsigned int* outlen) {
     unsigned int i, j = 0, count = 0;
     for (i = 0; i < inlen - 1; i += 2) {
@@ -47,4 +49,22 @@ void rle_decode(int* in, unsigned int inlen, int** out, unsigned int* outlen) {
         }
     }
     *outlen = count;
+}
+
+// finds the matches within a string
+char** find_matches(char* str, char* pat, unsigned int* nmatches) {
+    unsigned int pat_len = strlen(pat);
+    unsigned int i, j = 0, k = 0;
+    char** out = (char*)malloc(sizeof(char) * 3); // change array size 
+    for (i = 0; i < strlen(str)-pat_len; i++) {
+        while (str[k+i]==pat[k++] || str[j++]=='?' && k<pat_len) {
+            if (k == pat_len-1) {
+                *out[j++] = ...; // write substring method 
+            }
+        }
+    }
+}
+
+char* concat_strings(char** strings, unsigned int num_strings) {
+
 }
