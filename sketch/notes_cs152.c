@@ -165,6 +165,14 @@ void string_stuff(){
     char s2[] = {'a','b','c','\0'};
 }
 
+// hard array allocation !
+void pointer_array(){
+    int *ptr[3];    
+    int a = 1;
+    ptr[0] = &a;
+    printf("%d \n", *ptr[0]);
+}
+
 
 int main() {
     printf("hi\n");

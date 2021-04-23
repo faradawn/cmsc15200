@@ -1,3 +1,5 @@
+// counts the number of unique elements in an array
+int count_unique_elements(int in[], unsigned int inlen);
 // compresses the given array of positive integers
 int* rle_encode(int* in, unsigned int inlen, unsigned int* outlen);
 // decompresses the array of positive integers 
