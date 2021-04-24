@@ -20,7 +20,6 @@ void print_decode(int** a, unsigned int len) {
 
 // [helper function] prints the array of strings
 void print_str_array(char** a, unsigned int len) {
-    printf("result array: \n");
     for (int i = 0; i < len; i++) {
         printf("%s ", a[i]);
     }
@@ -60,21 +59,23 @@ int main() {
     free(compressed_arr);
 
 
-    printf("\n=== Part 2 - Find Matches === \n");
+    printf("=== Part 2 - Find Matches === \n");
     // raw string and matching pattern
     char* raw_str = "love alive slavic slavery notslate";
     char* pat = "l?v?";
     unsigned int num_matches;
     char** arr_matches = find_matches(raw_str, pat, &num_matches);
+    printf("result array: \n");
     print_str_array(arr_matches, num_matches); 
     // free at the end
-    
 
 
     printf("\n=== Part 3 - Concatenate Strings === \n");
     char* concatenated_str = concat_strings(arr_matches, num_matches);
-    printf("result: %s \n", concatenated_str);
-    
+    printf("input array of strings: \n");
+    print_str_array(arr_matches, num_matches); 
+    printf("concatenated string: \n%s\n", concatenated_str);
+
     // free
     free_array(arr_matches, num_matches);
     free(concatenated_str);

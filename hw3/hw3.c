@@ -121,10 +121,7 @@ char* concat_strings(char** strings, unsigned int num_strings) {
     // count the total length of the out put string 
     for (i = 0; i < num_strings; i ++) {
         count += strlen(strings[i]) + 1;
-        printf("individual string length: %u \n", strlen(strings[i]));
     }
-    
-    printf("output string length: %u \n", count);
 
     // allocate the output string 
     char* out = (char*)malloc(sizeof(char) * count);
@@ -132,20 +129,19 @@ char* concat_strings(char** strings, unsigned int num_strings) {
         fprintf(stderr, "error allocating new string");
     }
 
+    // set values for the output array
     i = 0;
     unsigned int k = 0;
     for (i = 0; i < num_strings; i++) {
         for (j = 0; j < strlen(strings[i]); j++){
-            printf("inner string: %s \n", strings[i]);
             out[k] = strings[i][j];
             k++;
-            printf("inner char: %c \n", out[k-1]);
         }
-        out[k+1] = ' ';
+        out[k] = ' ';
         k++;
-        
+
     }
 
-    out[count] = '\0';
+    out[k-1] = '\0';
     return out;
 }   

@@ -5,9 +5,11 @@
 
 
 int main(int arc, char** argv) {
-    char **str_list = (char**)malloc(sizeof(char*) * 1);
-    printf("one level: %d \n", str_list);
-    free(str_list);
+    
+    char str[4] = {'a', 'b', 'c', '\0'};
+    str[3] = 'd';
+    str[3] = '\0';
+    printf("len: %lu; str: %s \n", strlen(str), str);
     return 0;
     
 }
