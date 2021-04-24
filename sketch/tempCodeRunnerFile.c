@@ -1,0 +1,1 @@
+printf(">> %s \n", str_list[0]);
