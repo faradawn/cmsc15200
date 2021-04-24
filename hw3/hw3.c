@@ -117,6 +117,35 @@ char** find_matches(char* str, char* pat, unsigned int* nmatches) {
 
 
 char* concat_strings(char** strings, unsigned int num_strings) {
-    char* out = (char*)malloc(sizeof(char) * (num_strings + 1)); // times all strlen
+    unsigned int i, j, count = 0;
+    // count the total length of the out put string 
+    for (i = 0; i < num_strings; i ++) {
+        count += strlen(strings[i]) + 1;
+        printf("individual string length: %u \n", strlen(strings[i]));
+    }
+    
+    printf("output string length: %u \n", count);
+
+    // allocate the output string 
+    char* out = (char*)malloc(sizeof(char) * count);
+    if (out == NULL) {
+        fprintf(stderr, "error allocating new string");
+    }
+
+    i = 0;
+    unsigned int k = 0;
+    for (i = 0; i < num_strings; i++) {
+        for (j = 0; j < strlen(strings[i]); j++){
+            printf("inner string: %s \n", strings[i]);
+            out[k] = strings[i][j];
+            k++;
+            printf("inner char: %c \n", out[k-1]);
+        }
+        out[k+1] = ' ';
+        k++;
+        
+    }
+
+    out[count] = '\0';
     return out;
 }   
