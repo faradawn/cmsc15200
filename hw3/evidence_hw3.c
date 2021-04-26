@@ -80,6 +80,5 @@ int main() {
     free_array(arr_matches, num_matches);
     free(concatenated_str);
 
-
     return 0;
 }

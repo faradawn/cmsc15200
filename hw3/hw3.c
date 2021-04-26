@@ -3,21 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-// [helper function] counts the number of unique elements in an array
-int count_unique_elements(int in[], unsigned int inlen) {
-    int count = 1;
-    for (int i = 0; i < inlen - 1; i++) {
+// compresses the given array of positive integers
+int* rle_encode(int* in, unsigned int inlen, unsigned int* outlen) {
+    // count number of unique elements in the array
+    unsigned int i = 0, j = 0, count = 1;
+    while(i < inlen-1){
         if (in[i] != in[i+1]) {
             count ++;
         }
+        i ++;
     }
-    return count;
-}
-
-// compresses the given array of positive integers
-int* rle_encode(int* in, unsigned int inlen, unsigned int* outlen) {
+    *outlen = count*2;
+    
     // declaring out_array
-    *outlen = count_unique_elements(in, inlen)*2;
     int* out_arr = (int*)malloc(sizeof(int) * *outlen);
     if (out_arr == NULL) {
         fprintf(stderr, "error allocating out_arr \n");
@@ -25,8 +23,7 @@ int* rle_encode(int* in, unsigned int inlen, unsigned int* outlen) {
     }
 
     // set values for out_arr
-    int j = 0;
-    for (int i = 0; i < *outlen-1; i +=2) { 
+    for (i = 0; i < *outlen-1; i +=2) { 
         out_arr[i] = 1;
         while (in[j] == in[j+1]) {
             out_arr[i] ++;
@@ -82,24 +79,25 @@ char** find_matches(char* str, char* pat, unsigned int* nmatches) {
         }
         k = 0;
     }
-    printf("number of matches: %u \n", count);
+    printf("number of matches:\n %u \n", count);
     *nmatches = count;
 
-    // allocate memory for the array
+    // allocate memory for the output array (array of pointers)
     char** out = (char**)malloc(sizeof(char*) * count); 
     if (out == NULL) {
-        fprintf(stderr, "error allocating out_arr \n");
+        fprintf(stderr, "error allocating out_arr step 1 \n");
         exit(1);
     }
     for (i = 0; i < pat_len; i++) {
         *(out + i)  = (char*)malloc(sizeof(char) * (pat_len + 1));
         if (out[i] == NULL) {
-            fprintf(stderr, "error allocating out_arr \n");
+            fprintf(stderr, "error allocating out_arr step 2\n");
             exit(1);
         }
     }
 
-    // set values for the array
+    // set values for the output array 
+    // how to combine with count number ?
     unsigned int j = 0;
     for (i = 0; i < strlen(str)-pat_len; i++) {
         while (str[k+i]==pat[k] || pat[k]=='?') {
@@ -139,7 +137,6 @@ char* concat_strings(char** strings, unsigned int num_strings) {
         }
         out[k] = ' ';
         k++;
-
     }
 
     out[k-1] = '\0';
