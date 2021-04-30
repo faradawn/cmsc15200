@@ -3,29 +3,24 @@
 #include <math.h>
 #include <string.h>
 
-int* build_array(){
+int* build_dynamic_array(){
+    // initialize array with a length of 2
     unsigned int len = 2;
     int* out = (int*)malloc(sizeof(int)*len);
     out[0] = 0;
     out[1] = 1;
-    int *ptr = malloc(sizeof(int)*1);
-    out[2] = 2;
-    out[3] = 3;
-    printf("address: %d \n", out);
-    printf("address: %d \n", out+1);
-    printf("address: %d \n", out+2);
-    printf("address: %d \n", ptr);
+    // setting the 3rd element
+    out[2] = 2; 
 
-    printf("print 3: %d \n", out[2]);
     return out;
-
-
-
 }
 
 int main () {
-    int* arr1 = build_array();
+    int* arr1 = build_dynamic_array();
+
+    printf("arr[0]: %d \n", arr1[0]);
+    printf("arr[1]: %d \n", arr1[1]);
     printf("arr[2]: %d \n", arr1[2]);
-    printf("arr[2]: %d \n", arr1[3]);
-    return 0;
+
+    free(arr1);
 }
