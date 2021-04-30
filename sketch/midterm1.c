@@ -38,21 +38,20 @@ void calendar(unsigned char month, unsigned short year,
                   // print header line
                   printf("Su Mo Tu We Th Fr Sa \n");
                   // print main calendar with nested loops
-                  unsigned int i, j, num_column = 7;
-                  while(i < num_days + first_day) {
-                      if(i < first_day-1) {
-                          printf("  ");
-                      } else {
-                          if (i % 7 == 0) {
-                            printf("\n");
-                          }
-                          if (i-first_day+1 < 10){
-                            printf(" %u ", i-first_day+1);
+                  unsigned int i = 0, num_column = 7;
+                  while(i < num_days + first_day - 1) {
+                      if(i < first_day-1) { 
+                          printf("   ");
+                      } else {                          
+                          if (i-first_day+2 < 10){
+                            printf(" %u ", i-first_day+2);
                           } else {
 
-                            printf("%u ", i-first_day+1);
+                            printf("%u ", i-first_day+2);
                           }
-                          
+                          if (i % 7 == 6) {
+                            printf("\n");
+                          }                          
                       }
                       i ++;
                   }
@@ -141,7 +140,7 @@ int* filter_by_array(int* input, unsigned int input_len,
                          for (i = 0; i < filter_len; i++) {
                              while(j < input_len) {
                                  if (filter[i] == input[j]) {
-                                     out[k] == input[j];
+                                     out[k] = input[j];
                                      k ++;
                                      // for safety 
                                      if (k == *out_len) {
