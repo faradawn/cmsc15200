@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+// define the coins struct
 struct coins {
    unsigned int quarters; // 25 cents
    unsigned int dimes; // 10 cents
@@ -10,6 +11,7 @@ struct coins {
    unsigned int pennies; // 1 cent
 };
 
+// define each domination's value 
 enum coin_values {
     QUARTERS = 25,
     DIMES = 10,
@@ -17,13 +19,14 @@ enum coin_values {
     PENNIES = 1
 };
 
+// 1-1: returns the cents of maximum cents and stores the number of coins   
 unsigned int find_amount_of_denomination(unsigned int cents, 
                                          unsigned int denomination, 
                                          unsigned int *num_denomination_ptr) {
                                              *num_denomination_ptr = cents / denomination;
                                              return *num_denomination_ptr * denomination;
                                          }
-
+// 1-2: returns the minimum combination of coins that adds up to the given cents
 struct coins make_change(unsigned int cents) {
     struct coins coin;
     unsigned int num_denomination, cents_remaining;
@@ -51,6 +54,13 @@ struct coins make_change(unsigned int cents) {
     return coin;
 }
 
+// define the color struct
+struct color {
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+};
+
 int main () {
-    struct coins coin = make_change(117);
+    
 }
