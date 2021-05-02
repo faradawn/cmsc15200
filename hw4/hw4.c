@@ -1,4 +1,4 @@
-#include "hw4.h"
+// #include "hw4.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -140,23 +140,6 @@ struct card {
     union rank_suit rs; 
 };
 
-// 3-1: check if all cards in the array are black
-int all_black(struct card* cards, unsigned int ncards) {
-    for (int i = 0; i < ncards; i ++) {
-        if(cards[i].type == JOKER){
-            return 0;
-        } else if (cards[i].type == FACE) {
-            if(cards[i].rs.f.suit != CLUBS || cards[i].rs.f.suit != SPADES) {
-                return 0;
-            }
-        } else {
-            if(cards[i].rs.p.suit != CLUBS || cards[i].rs.p.suit != SPADES) {
-                return 0;
-            }
-        }
-    }
-    return 1;
-}
 
 // [helper function: print the rank number]
 void print_rank(unsigned char n) {
@@ -182,8 +165,9 @@ void print_suit(enum suit suit){
         break;
     case CLUBS:
         printf("Clubs");
+        break;
     default:
-        printf("Diamonds")
+        printf("Diamonds");
         break;
     }
 }
@@ -196,9 +180,29 @@ void print_face(enum face face){
         break;
     case QUEEN:
         printf("Queen");
+        break;
     default:
         printf("King");
     }
+}
+
+
+// 3-1: check if all cards in the array are black
+int all_black(struct card* cards, unsigned int ncards) {
+    for (int i = 0; i < ncards; i++) {
+        if(cards[i].type == JOKER){
+            return 0;
+        } else if (cards[i].type == FACE) {
+            if(cards[i].rs.f.suit == HEARTS || cards[i].rs.f.suit == DIAMONDS) {
+                return 0;
+            }
+        } else {
+            if(cards[i].rs.p.suit == HEARTS || cards[i].rs.p.suit == DIAMONDS) {
+                return 0;
+            }
+        }
+    }
+    return 1;
 }
 
 // 3-2: display what the given card is
@@ -223,39 +227,31 @@ void card_show(struct card c) {
 // 3-4: computes the sum of the card array
 // unsigned int sum_cards(struct card* cards, unsigned int ncards);
 
-// struct card* build_card_array() {
-//     struct pip_card pip1 = {5, CLUBS};
-//     struct face_card face1 = {QUEEN, HEARTS};
-//     union rank_suit u1;
-//     u1.p = pip1;
-//     u1.f = face1; 
-
-//     struct face_card face2 = {KING, CLUBS};
-//     struct pip_card pip2 = {10, SPADES};
-//     union rank_suit u2 = {face1, pip2};
-    
-//     struct card card1 = {FACE, u1};
-//     struct card card2 = {PIP, u1};
-//     struct card card3 = {FACE, u2};
-//     struct card card4 = {PIP, u2};
-//     struct card card_array[] = {card1, card2, card3, card4};
-
-//     return card_array;
-// }
 
 int main () {
     struct color test_color = {182, 145, 0};
     struct color* c = greyscale(&test_color);
-    printf("%u", c->red);
+    printf("%u \n", c->red);
     free(c);
 
     struct pip_card pip1 = {5, CLUBS};
     struct face_card face1 = {QUEEN, HEARTS};
-    union rank_suit u1;
-    u1.f = face1; 
-    struct card card1 = {FACE, u1};
+    union rank_suit u1, u2, u3;
+    u1.p = pip1;
+    u2.f = face1;
+    u3.p = pip1;
 
-    card_show(face1);
+    struct card card1 = {PIP, u1};
+    struct card card2 = {FACE, u2};
+    struct card card3 = {PIP, u3};
+
+    struct card card_arr1[] = {card1, card2, card3};
+    struct card card_arr2[] = {card1, card3};
+
+    printf("%d \n", all_black(card_arr1, 3));
+    printf("%d \n", all_black(card_arr2, 2));
+
+    card_show(card1);
     
 
 
