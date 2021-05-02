@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-// define the coins struct
+// part1: coins
 struct coins {
    unsigned int quarters; // 25 cents
    unsigned int dimes; // 10 cents
@@ -54,13 +54,209 @@ struct coins make_change(unsigned int cents) {
     return coin;
 }
 
-// define the color struct
+
+
+
+
+// part2: colors
 struct color {
     unsigned char red;
     unsigned char green;
     unsigned char blue;
 };
 
-int main () {
+// 2-1: return negative colors subtracted from the maximum color intensity
+struct color* negative(struct color* c){
+    // define the maximum color intensity    
+    unsigned char max_intensity = 255;
+
+    // malloc the output color struct
+    struct color *out_color = (struct color*)malloc(sizeof(struct color));
+    if(out_color == NULL) {
+        fprintf(stderr, "error mallocing negative color struct");
+        exit(1);
+    }
+
+    out_color->red = max_intensity - c->red;
+    out_color->green = max_intensity - c->green;
+    out_color->blue = max_intensity - c->blue;
+
+    return out_color;
+}
+
+// 2-2: return greyscale colors using a weighted average formula
+struct color* greyscale(struct color* c) {
+    // calculate the weighted average
+    unsigned char weighted_avg = (77*c->red+150*c->green+29*c->blue)/256;
+
+    // malloc the output color struct
+    struct color *out_color = (struct color*)malloc(sizeof(struct color));
+    if(out_color == NULL) {
+        fprintf(stderr, "error mallocing greyscale struct");
+        exit(1);
+    }
+
+    out_color->red = weighted_avg;
+    out_color->green = weighted_avg;
+    out_color->blue = weighted_avg;
     
+    return out_color;
+}
+
+
+
+
+
+// part3: poker cards
+enum face {
+    JACK, QUEEN, KING
+};
+
+enum suit {
+    SPADES, HEARTS, CLUBS, DIAMONDS // club and spade are black
+};
+
+enum card_type {
+    FACE, PIP, JOKER
+};
+
+struct face_card { 
+    enum face rank;
+    enum suit suit;
+};
+
+struct pip_card { 
+    unsigned char rank;
+    enum suit suit;
+};
+
+union rank_suit { 
+    struct face_card f;
+    struct pip_card p; 
+};
+
+struct card {
+    enum card_type type;
+    union rank_suit rs; 
+};
+
+// 3-1: check if all cards in the array are black
+int all_black(struct card* cards, unsigned int ncards) {
+    for (int i = 0; i < ncards; i ++) {
+        if(cards[i].type == JOKER){
+            return 0;
+        } else if (cards[i].type == FACE) {
+            if(cards[i].rs.f.suit != CLUBS || cards[i].rs.f.suit != SPADES) {
+                return 0;
+            }
+        } else {
+            if(cards[i].rs.p.suit != CLUBS || cards[i].rs.p.suit != SPADES) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+// [helper function: print the rank number]
+void print_rank(unsigned char n) {
+    if (n == 1){
+        printf("Ace");
+    }
+    for (unsigned char i = 2; i <= n; i++) {
+        if(i == n) {
+            printf("%u", i);
+        }
+    }
+}
+
+// [helper function: print the suit name]
+void print_suit(enum suit suit){
+    switch (suit)
+    {
+    case SPADES:
+        printf("SPADES");
+        break;
+    case HEARTS:
+        printf("Hearts");
+        break;
+    case CLUBS:
+        printf("Clubs");
+    default:
+        printf("Diamonds")
+        break;
+    }
+}
+
+void print_face(enum face face){
+    switch (face)
+    {
+    case JACK:
+        printf("Jack");
+        break;
+    case QUEEN:
+        printf("Queen");
+    default:
+        printf("King");
+    }
+}
+
+// 3-2: display what the given card is
+void card_show(struct card c) {
+    if (c.type == JOKER) {
+        printf("Joker");
+    } else if (c.type == FACE) {
+        print_rank(c.rs.f.rank);
+        printf(" of ");
+        print_suit(c.rs.f.suit);
+    } else {
+        print_rank(c.rs.p.rank);
+        printf(" of ");
+        print_suit(c.rs.p.suit);
+    }
+
+}
+
+// 3-3: check if the two cards are identical 
+// int cards_equal(struct card c1, struct card c2);
+
+// 3-4: computes the sum of the card array
+// unsigned int sum_cards(struct card* cards, unsigned int ncards);
+
+// struct card* build_card_array() {
+//     struct pip_card pip1 = {5, CLUBS};
+//     struct face_card face1 = {QUEEN, HEARTS};
+//     union rank_suit u1;
+//     u1.p = pip1;
+//     u1.f = face1; 
+
+//     struct face_card face2 = {KING, CLUBS};
+//     struct pip_card pip2 = {10, SPADES};
+//     union rank_suit u2 = {face1, pip2};
+    
+//     struct card card1 = {FACE, u1};
+//     struct card card2 = {PIP, u1};
+//     struct card card3 = {FACE, u2};
+//     struct card card4 = {PIP, u2};
+//     struct card card_array[] = {card1, card2, card3, card4};
+
+//     return card_array;
+// }
+
+int main () {
+    struct color test_color = {182, 145, 0};
+    struct color* c = greyscale(&test_color);
+    printf("%u", c->red);
+    free(c);
+
+    struct pip_card pip1 = {5, CLUBS};
+    struct face_card face1 = {QUEEN, HEARTS};
+    union rank_suit u1;
+    u1.f = face1; 
+    struct card card1 = {FACE, u1};
+
+    card_show(face1);
+    
+
+
 }
