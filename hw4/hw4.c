@@ -1,4 +1,4 @@
-// #include "hw4.h"
+#include "hw4.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -222,37 +222,75 @@ void card_show(struct card c) {
 }
 
 // 3-3: check if the two cards are identical 
-// int cards_equal(struct card c1, struct card c2);
+int cards_equal(struct card c1, struct card c2){
+    if (c1.type == JOKER) { // both types are JOKER 
+        return 1; // assume jokes are equal?  
+    } else if (c1.type == FACE) { // both types are FACE
+        if(c1.rs.f.suit == c2.rs.f.suit){
+            if(c1.rs.f.rank == c2.rs.f.rank){
+                return 1;
+            }
+        } 
+    } else { // both types are PIP
+        if(c1.rs.p.suit == c2.rs.p.suit) {
+            if(c1.rs.p.rank == c2.rs.p.rank) {
+                return 1;
+            } 
+        } 
+    }
+    // if no match, return false 
+    return 0; 
+}
 
 // 3-4: computes the sum of the card array
-// unsigned int sum_cards(struct card* cards, unsigned int ncards);
+unsigned int sum_cards(struct card* cards, unsigned int ncards) {
+    unsigned int i, count = 0;
+    for (i = 0; i < ncards; i++){
+        switch (cards[i].type)
+        {
+        case FACE: // value of FACE = 10
+            count += 10;
+            break;
+        case PIP: // value of PIP = rank
+            count += cards[i].rs.p.rank;
+            break;
+        default: // value of JOKER = 0
+            break; 
+        }
+    }
+    return count;
+}
 
 
-int main () {
-    struct color test_color = {182, 145, 0};
-    struct color* c = greyscale(&test_color);
-    printf("%u \n", c->red);
-    free(c);
+// int main () {
+//     struct color test_color = {182, 145, 0};
+//     struct color* c = greyscale(&test_color);
+//     printf("%u \n", c->red);
+//     free(c);
 
-    struct pip_card pip1 = {5, CLUBS};
-    struct face_card face1 = {QUEEN, HEARTS};
-    union rank_suit u1, u2, u3;
-    u1.p = pip1;
-    u2.f = face1;
-    u3.p = pip1;
+//     struct pip_card pip1 = {5, CLUBS};
+//     struct face_card face1 = {QUEEN, HEARTS};
+//     union rank_suit u1, u2, u3;
+//     u1.p = pip1;
+//     u2.f = face1;
+//     u3.p = pip1;
 
-    struct card card1 = {PIP, u1};
-    struct card card2 = {FACE, u2};
-    struct card card3 = {PIP, u3};
+//     struct card card1 = {PIP, u1};
+//     struct card card2 = {FACE, u2};
+//     struct card card3 = {PIP, u3};
 
-    struct card card_arr1[] = {card1, card2, card3};
-    struct card card_arr2[] = {card1, card3};
+//     struct card card_arr1[] = {card1, card2, card3};
+//     struct card card_arr2[] = {card1, card3};
 
-    printf("%d \n", all_black(card_arr1, 3));
-    printf("%d \n", all_black(card_arr2, 2));
+//     printf("%d \n", all_black(card_arr1, 3));
+//     printf("%d \n", all_black(card_arr2, 2));
 
-    card_show(card1);
+//     card_show(card1);
+//     printf("\n card equal: %d \n", cards_equal(card1, card3));
+
+//     printf("sum: %u \n", sum_cards(card_arr1, 3));
+//     printf("sum: %u \n", sum_cards(card_arr2, 2));
     
 
 
-}
+// }

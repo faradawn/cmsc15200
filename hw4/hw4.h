@@ -1,3 +1,4 @@
+
 // returns the cents of maximum cents and stores the number of coins   
 unsigned int find_amount_of_denomination(unsigned int cents, 
                                          unsigned int denomination, 
@@ -9,6 +10,7 @@ struct coins make_change(unsigned int cents);
 struct color* negative(struct color* c);
 // returns greyscale colors using a weighted average formula
 struct color* greyscale(struct color* c);
+
 
 // checks if all cards are black
 int all_black(struct card* cards, unsigned int ncards);
