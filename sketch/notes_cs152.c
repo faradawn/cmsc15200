@@ -180,3 +180,11 @@ int main() {
     printf("hi\n");
     return 0;
 }
+
+// debugger lldb
+/*
+ run
+ bt - backtrace
+ breakpoint set -f fib.c -l 23
+ 
+ */
