@@ -4,20 +4,6 @@
 #include <math.h>
 
 // part1: coins
-struct coins {
-   unsigned int quarters; // 25 cents
-   unsigned int dimes; // 10 cents
-   unsigned int nickels; // 5 cents
-   unsigned int pennies; // 1 cent
-};
-
-// define each domination's value 
-enum coin_values {
-    QUARTERS = 25,
-    DIMES = 10,
-    NICKELS = 5,
-    PENNIES = 1
-};
 
 // 1-1: returns the cents of maximum cents and stores the number of coins   
 unsigned int find_amount_of_denomination(unsigned int cents, 
@@ -30,40 +16,25 @@ unsigned int find_amount_of_denomination(unsigned int cents,
 struct coins make_change(unsigned int cents) {
     struct coins coin;
     unsigned int num_denomination, cents_remaining;
-    // convert into loop
+
     cents_remaining = cents - find_amount_of_denomination(cents, QUARTERS, &num_denomination);
     coin.quarters = num_denomination;
-    printf("number of quarters: %u \n", coin.quarters);
-    printf("%u \n", cents_remaining);
 
     cents_remaining = cents_remaining - find_amount_of_denomination(cents_remaining, DIMES, &num_denomination);
     coin.dimes = num_denomination;
-    printf("number of dimes: %u \n", coin.dimes);
-    printf("%u \n", cents_remaining);
 
     cents_remaining = cents_remaining - find_amount_of_denomination(cents_remaining, NICKELS, &num_denomination);
     coin.nickels = num_denomination;
-    printf("number of nickles: %u \n", coin.nickels);
-    printf("%u \n", cents_remaining);
 
     cents_remaining = cents_remaining - find_amount_of_denomination(cents_remaining, PENNIES, &num_denomination);
     coin.pennies = num_denomination;
-    printf("number of pennies: %u \n", coin.pennies);
-    printf("%u \n", cents_remaining);
 
     return coin;
 }
 
 
-
-
-
 // part2: colors
-struct color {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-};
+
 
 // 2-1: return negative colors subtracted from the maximum color intensity
 struct color* negative(struct color* c){
@@ -105,41 +76,7 @@ struct color* greyscale(struct color* c) {
 
 
 
-
-
 // part3: poker cards
-enum face {
-    JACK, QUEEN, KING
-};
-
-enum suit {
-    SPADES, HEARTS, CLUBS, DIAMONDS // club and spade are black
-};
-
-enum card_type {
-    FACE, PIP, JOKER
-};
-
-struct face_card { 
-    enum face rank;
-    enum suit suit;
-};
-
-struct pip_card { 
-    unsigned char rank;
-    enum suit suit;
-};
-
-union rank_suit { 
-    struct face_card f;
-    struct pip_card p; 
-};
-
-struct card {
-    enum card_type type;
-    union rank_suit rs; 
-};
-
 
 // [helper function: print the rank number]
 void print_rank(unsigned char n) {
@@ -171,7 +108,7 @@ void print_suit(enum suit suit){
         break;
     }
 }
-
+// [helper function: print face text]
 void print_face(enum face face){
     switch (face)
     {
@@ -205,7 +142,7 @@ int all_black(struct card* cards, unsigned int ncards) {
     return 1;
 }
 
-// 3-2: display what the given card is
+// 3-2: display what the given card
 void card_show(struct card c) {
     if (c.type == JOKER) {
         printf("Joker");
@@ -224,7 +161,7 @@ void card_show(struct card c) {
 // 3-3: check if the two cards are identical 
 int cards_equal(struct card c1, struct card c2){
     if (c1.type == JOKER) { // both types are JOKER 
-        return 1; // assume jokes are equal?  
+        return 1; // assume only one type of joke
     } else if (c1.type == FACE) { // both types are FACE
         if(c1.rs.f.suit == c2.rs.f.suit){
             if(c1.rs.f.rank == c2.rs.f.rank){
@@ -260,37 +197,3 @@ unsigned int sum_cards(struct card* cards, unsigned int ncards) {
     }
     return count;
 }
-
-
-// int main () {
-//     struct color test_color = {182, 145, 0};
-//     struct color* c = greyscale(&test_color);
-//     printf("%u \n", c->red);
-//     free(c);
-
-//     struct pip_card pip1 = {5, CLUBS};
-//     struct face_card face1 = {QUEEN, HEARTS};
-//     union rank_suit u1, u2, u3;
-//     u1.p = pip1;
-//     u2.f = face1;
-//     u3.p = pip1;
-
-//     struct card card1 = {PIP, u1};
-//     struct card card2 = {FACE, u2};
-//     struct card card3 = {PIP, u3};
-
-//     struct card card_arr1[] = {card1, card2, card3};
-//     struct card card_arr2[] = {card1, card3};
-
-//     printf("%d \n", all_black(card_arr1, 3));
-//     printf("%d \n", all_black(card_arr2, 2));
-
-//     card_show(card1);
-//     printf("\n card equal: %d \n", cards_equal(card1, card3));
-
-//     printf("sum: %u \n", sum_cards(card_arr1, 3));
-//     printf("sum: %u \n", sum_cards(card_arr2, 2));
-    
-
-
-// }

@@ -2,54 +2,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct color {
-    unsigned char red;
-    unsigned char green;
-    unsigned char blue;
-};
-
-enum face {
-    JACK, QUEEN, KING
-};
-
-enum suit {
-    SPADES, HEARTS, CLUBS, DIAMONDS 
-};
-
-enum card_type {
-    FACE, PIP, JOKER
-};
-
-struct face_card { 
-    enum face rank;
-    enum suit suit;
-};
-
-struct pip_card { 
-    unsigned char rank;
-    enum suit suit;
-};
-
-union rank_suit { 
-    struct face_card f;
-    struct pip_card p; 
-};
-
-struct card {
-    enum card_type type;
-    union rank_suit rs; 
-};
 
 int main() {
 
-    // part 1
-    printf("=== Part 1 - Find the Amount of Denominations === \n");
+    // part 1: coins 
+    printf("\n=== Part 1 - Find the Amount of Denominations === \n");
 
     unsigned int num_denomination;
-    printf("value in cents: %u \n", find_amount_of_denomination(117, 25, &num_denomination));
+    printf("input cents: 117, type of coin: quater \n ");
+    printf("output cents: %u\n", find_amount_of_denomination(117, 25, &num_denomination));
     printf("number of denomination: %u \n", num_denomination);
 
-    // part 2
+    // part 2: colors 
     printf("\n=== Part 2 - Negative and Greyscale Colors === \n");
 
     // original color
@@ -67,9 +31,7 @@ int main() {
         grey_color->red, grey_color->blue, grey_color->green);
 
 
-
-
-    // part 3 
+    // part 3: poker
     printf("\n=== Part 3 - Poker Cards === \n");
 
     struct pip_card pip1 = {5, CLUBS};
@@ -85,15 +47,18 @@ int main() {
 
     struct card card_arr1[] = {card1, card2, card3};
     struct card card_arr2[] = {card1, card3};
-
-    printf("%d \n", all_black(card_arr1, 3));
-    printf("%d \n", all_black(card_arr2, 2));
-
+    printf("card_arr1 = {5 of Clubs, Queen of Hearts, 5 of Clubs}\n");
+    printf("card_arr2 = {5 of Clubs, 5 of Clubs}\n");
+    printf("check card_arr1 all black: %d \n", all_black(card_arr1, 3));
+    printf("check card_arr2 all black: %d \n", all_black(card_arr2, 2));
+    printf("\nshow card1 and card3: \n");
     card_show(card1);
-    printf("\n card equal: %d \n", cards_equal(card1, card3));
+    printf(", ");
+    card_show(card3);
+    printf("\ncheck card1 and card3 equal: %d \n", cards_equal(card1, card3));
 
-    printf("sum: %u \n", sum_cards(card_arr1, 3));
-    printf("sum: %u \n", sum_cards(card_arr2, 2));
+    printf("\nsum of card_arr1: %u \n", sum_cards(card_arr1, 3));
+    printf("sum of card_arr2: %u \n", sum_cards(card_arr2, 2));
     
 
 
