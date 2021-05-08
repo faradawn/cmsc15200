@@ -1,11 +1,9 @@
 // part 1: linked lists
 typedef struct intlist intlist;
-
 struct intlist {
     int val;
     intlist* next;
 };
-
 // prints all the elements of a linked list 
 void show(intlist* lst);
 // get the nth element of a list 
@@ -19,13 +17,13 @@ intlist* insert_before(intlist* lst, int val, int new_val);
 // deduplicate a given list
 intlist* no_duplicates(intlist* lst);
 
+
 // part 2: big numbers
 typedef struct dll_intlist dll_intlist;
-
 struct dll_intlist {
     int val;
     dll_intlist* prev;
     dll_intlist* next;
 };
-
+// add two digits together
 dll_intlist* add_digits(dll_intlist* lst1, dll_intlist* lst2);

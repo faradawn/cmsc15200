@@ -7,14 +7,14 @@
 
 // [helper function: make a linked list]
 intlist* make(int val, intlist* lst){
-    intlist* new_ptr = (intlist*)malloc(sizeof(intlist*));
-    if (new_ptr == NULL){
+    intlist* new_unit = (intlist*)malloc(sizeof(intlist*));
+    if (new_unit == NULL){
         fprintf(stderr, "error making new list");
         exit(1);
     }
-    new_ptr->val = val;
-    new_ptr->next = lst;
-    return new_ptr;
+    new_unit->val = val;
+    new_unit->next = lst;
+    return new_unit;
 }
 
 // 1-1: prints the list to the screen
@@ -114,13 +114,80 @@ intlist* insert_before(intlist* lst, int val, int new_val){
 
 // 1-6: deduplicate a give list 
 intlist* no_duplicates(intlist* lst){
+    if (lst == NULL) {
+        printf("The list is empty");
+    }
+    intlist* index = lst;
+    intlist* back_index = lst;
+    while(index->next != NULL){
+        printf("iter %d\n", index->val);
+        while(back_index != index->next){
+            if(index->next->val == back_index->val){
+                index->next = index->next->next;
+                printf("end inner while %d\n", index->val);
+                break;
+            } 
+            back_index = back_index->next;
+            // might able to sumplify 
+            if(back_index == index->next){
+                index = index->next;
+                break;
+            }
+        }        
+        back_index = lst;
+    }
+    return lst;
+}
+
+
+// part2: large numbers 
+
+// [helper function: make double linked list]
+dll_intlist* make_dll(int val, dll_intlist* prev, dll_intlist* next){
+    dll_intlist* new_unit = (dll_intlist*)malloc(sizeof(dll_intlist*));
+    if (new_unit == NULL){
+        fprintf(stderr, "error making new dll");
+        exit(1);
+    }
+    new_unit->val = val;
+    new_unit->prev = prev;
+    new_unit->next = next;
+    return new_unit;
+}
+// [helper function: show the double linked list]
+void show_dll(dll_intlist* lst) {
+    dll_intlist* index = lst;
+    while(index != NULL){
+        if (index->next == NULL){
+            printf("%d", index->val);
+            break;
+        }
+        printf("%d -> ", index->val);
+        index = index->next; 
+    }
+}
+
+// add two digits together 
+dll_intlist* add_digits(dll_intlist* lst1, dll_intlist* lst2){
     
 }
 
 
-
 int main(){
-    intlist* list1 = make(10, make(20, make(30, NULL)));
-    intlist* list2 = insert_before(list1, 30, 100);
-    show(list2);
+    dll_intlist *a1, *a2, *a3;
+    a1->val = 1;
+    a1->prev = NULL;
+    a1->next = a2;
+    a2->val = 9;
+    a2->prev = a1;
+    a2->next = NULL;
+    show_dll(a1);
+
+    // dll_intlist* a1 = {1, NULL, NULL};
+    // dll_intlist* a2 = {9, a1, NULL};
+    // dll_intlist* a3 = {3, a2, NULL};
+    // a1->next = a2;
+    // a2->next = a3;
+    // show_dll(a1);
+    
 }
