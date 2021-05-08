@@ -4,6 +4,13 @@
 #include <math.h>
 #include <string.h>
 
+// stack allocated array can't shrink.
+// heap allocated might ... with realloc 
+    // [1,2,3] ... , yes
+    // [1,2,3] [4], need copy to other place
+
+// Linked lists
+
 list* make_list(int val, list* lst){
     list* new_list = (list*)malloc(sizeof(list*));
     if (new_list == NULL){
@@ -24,7 +31,7 @@ int sum_list(list* lst){
     return lst->val + sum_list(lst->ptr);
 }
 
-int main () {
+int main1() {
     list* one = make_list(10, make_list(20, make_list(30, NULL)));
     list a3 = {30, NULL};
     list a2 = {20, &a3};
@@ -33,4 +40,6 @@ int main () {
     printf("%d\n", sum_list(&a1));
     printf("%d\n", sum_list(one));
     return 0;
-}
+}a
+
+
