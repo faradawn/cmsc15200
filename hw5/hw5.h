@@ -6,11 +6,17 @@ struct intlist {
     intlist* next;
 };
 
+// prints all the elements of a linked list 
 void show(intlist* lst);
+// get the nth element of a list 
 int get_nth(intlist* lst, unsigned int n);
+// set the value of the struct at the given index
 void set_nth(intlist* lst, unsigned int n, int new_val);
+// insert an element after the choosen element
 void insert_after(intlist* lst, int val, int new_val);
+// insert an element before the element of the given val
 intlist* insert_before(intlist* lst, int val, int new_val);
+// deduplicate a given list
 intlist* no_duplicates(intlist* lst);
 
 // part 2: big numbers
