@@ -4,6 +4,8 @@
 #include <math.h>
 #include <string.h>
 
+// error segmentation! malloc sizeof (intlist*)
+
 // stack allocated array can't shrink.
 // heap allocated might ... with realloc 
     // [1,2,3] ... , yes

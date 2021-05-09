@@ -4,6 +4,8 @@ struct intlist {
     int val;
     intlist* next;
 };
+// [helper function: make a linked list]
+intlist* make(int val, intlist* lst);
 // prints all the elements of a linked list 
 void show(intlist* lst);
 // get the nth element of a list 
@@ -25,5 +27,12 @@ struct dll_intlist {
     dll_intlist* prev;
     dll_intlist* next;
 };
+// [helper function: make double linked list]
+dll_intlist* make_dll(int val, dll_intlist* prev, dll_intlist* next);
+// [helper function: show the double linked list]
+void show_dll(dll_intlist* lst);
+// [helper function: get last element]
+dll_intlist* last(dll_intlist* lst);
 // add two digits together
 dll_intlist* add_digits(dll_intlist* lst1, dll_intlist* lst2);
+

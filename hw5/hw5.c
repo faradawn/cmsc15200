@@ -2,12 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 // part 1: linked lists 
 
 // [helper function: make a linked list]
 intlist* make(int val, intlist* lst){
-    intlist* new_unit = (intlist*)malloc(sizeof(intlist*));
+    intlist* new_unit = (intlist*)malloc(sizeof(intlist));
     if (new_unit == NULL){
         fprintf(stderr, "error making new list");
         exit(1);
@@ -60,12 +59,15 @@ void set_nth(intlist* lst, unsigned int n, int new_val){
     while(index != NULL){
         if(n == 0){
             index->val = new_val;
+            break;
         }
         index = index->next;
         n--;
+        if(index == NULL){
+            fprintf(stderr, "set_nth: list not long enough\n");
+            exit(1);
+        }
     }
-    fprintf(stderr, "set_nth: list not long enough\n");
-    exit(1);
 }
 
 // 1-4: insert an element after the choosen element
@@ -98,7 +100,6 @@ intlist* insert_before(intlist* lst, int val, int new_val){
 
     intlist* index = lst;
     while(index != NULL){
-        printf("%d, \n", index->val);
         if(index->next->val == val){
             index->next = make(new_val, index->next);
             return lst;
@@ -120,15 +121,13 @@ intlist* no_duplicates(intlist* lst){
     intlist* index = lst;
     intlist* back_index = lst;
     while(index->next != NULL){
-        printf("iter %d\n", index->val);
         while(back_index != index->next){
             if(index->next->val == back_index->val){
                 index->next = index->next->next;
-                printf("end inner while %d\n", index->val);
                 break;
             } 
             back_index = back_index->next;
-            // might able to sumplify 
+            // might able to simplify 
             if(back_index == index->next){
                 index = index->next;
                 break;
@@ -144,7 +143,7 @@ intlist* no_duplicates(intlist* lst){
 
 // [helper function: make double linked list]
 dll_intlist* make_dll(int val, dll_intlist* prev, dll_intlist* next){
-    dll_intlist* new_unit = (dll_intlist*)malloc(sizeof(dll_intlist*));
+    dll_intlist* new_unit = (dll_intlist*)malloc(sizeof(dll_intlist));
     if (new_unit == NULL){
         fprintf(stderr, "error making new dll");
         exit(1);
@@ -154,15 +153,12 @@ dll_intlist* make_dll(int val, dll_intlist* prev, dll_intlist* next){
     new_unit->next = next;
     return new_unit;
 }
+
 // [helper function: show the double linked list]
 void show_dll(dll_intlist* lst) {
     dll_intlist* index = lst;
     while(index != NULL){
-        if (index->next == NULL){
-            printf("%d", index->val);
-            break;
-        }
-        printf("%d -> ", index->val);
+        printf("%d", index->val);
         index = index->next; 
     }
 }
@@ -185,46 +181,40 @@ dll_intlist* add_digits(dll_intlist* lst1, dll_intlist* lst2){
     dll_intlist* last2 = last(lst2);
     dll_intlist* temp_ptr;
     int temp_int = 0;
-    // start from last and move to the head
+
+    // first iteration: set the last digit 
+    if(last1->val+last2->val+temp_int >= 10){
+        new_list = make_dll(last1->val+last2->val -10, NULL, NULL);
+        temp_int = 1;
+    } else {
+        new_list = make_dll(last1->val+last2->val, NULL, NULL);
+        temp_int = 0;
+    }
+    last1 = last1->prev;
+    last2 = last2->prev;
+
+    // body iterations: move from tail to front
     while(last1 != NULL && last2 != NULL){
         temp_ptr = new_list;
         if(last1->val+last2->val+temp_int >= 10){
-            // first iteration
-            if(new_list == NULL){
-                new_list = make_dll(last1->val+last2->val+temp_int-10, NULL, NULL);
-            } else {
-                new_list->prev = make_dll(last1->val+last2->val+temp_int-10, NULL, temp_ptr);
-            }
+            new_list->prev = make_dll(last1->val+last2->val+temp_int-10, NULL, temp_ptr);
             temp_int = 1;
             
         } else {
-            // first iteration
-            if(new_list == NULL){
-                new_list = make_dll(last1->val+last2->val+temp_int, NULL, NULL);
-            } else {
-                new_list->prev = make_dll(last1->val+last2->val+temp_int, NULL, temp_ptr);
-            }
+            new_list->prev = make_dll(last1->val+last2->val+temp_int, NULL, temp_ptr);
             temp_int = 0;
         }
+        last1 = last1->prev;
+        last2 = last2->prev;
         new_list = new_list->prev;
     }
+
+    // final iteration: set the first digit
+    if (temp_int == 1){
+        new_list->prev = make_dll(1, NULL, new_list);
+        new_list = new_list->prev;
+    }
+
     return new_list;
 }
 
-
-int main(){
-    dll_intlist a1 = {9, NULL, NULL};
-    dll_intlist a2 = {9, &a1, NULL};
-    dll_intlist a3 = {9, &a2, NULL};
-    a1.next = &a2;
-    a2.next = &a3;
-
-    dll_intlist b1 = {9, NULL, NULL};
-    dll_intlist b2 = {9, &b1, NULL};
-    b1.next = &b2;
-
-
-
-    show_dll(add_digits(&a1, &b1));
-    
-}
