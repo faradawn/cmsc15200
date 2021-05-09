@@ -1,9 +1,30 @@
 #include "hw5.h"
 #include <stdio.h>
+#include <stdlib.h>
+
+void free_list(intlist* list){
+    intlist* next;
+    while(list){
+        next = list->next;
+        free(list);
+        list = next;
+    }
+    printf("list freed \n");
+}
+void free_dll(dll_intlist* list){
+    dll_intlist* next;
+    while(list){
+        next = list->next;
+        free(list);
+        list = next;
+    }
+    printf("dll list freed \n");
+}
+
 
 int main(){
     // part 1: linked lists
-    printf("=== Part1: Linked Lists === \n");
+    printf("\n=== Part1: Linked Lists === \n");
     intlist* list1 = make(10, (make(20, make(30, NULL))));
     printf("show: ");
     show(list1);
@@ -24,6 +45,8 @@ int main(){
     printf("\ninsert 25 before 30: ");
     printf("\nshow: ");
     show(insert_before(list1, 30, 25));
+    // free
+    free_list(list1);
 
 
     // part 2: double linked lists
@@ -36,9 +59,11 @@ int main(){
     dll_intlist* num2 = num1;
     printf("num1: 789\n");
     printf("num2: 789\n");
-    printf("add_digit(num1, num2) \nanswer:");
-    show_dll(add_digits(num1,num2));
+    printf("add_digit(num1, num2) \nanswer: ");
+    dll_intlist* num_sum = add_digits(num1, num2);
+    show_dll(num_sum);
     printf("\n\nThe End of HW5. Thank you!\n\n");
+    free_dll(num1);
 
     return 0;
 }

@@ -13,35 +13,74 @@
 
 // Linked lists
 
-list* make_list(int val, list* lst){
-    list* new_list = (list*)malloc(sizeof(list*));
+
+intlist* make_list(int val, intlist* lst){
+    intlist* new_list = (intlist*)malloc(sizeof(intlist));
     if (new_list == NULL){
         fprintf(stderr, "error new list");
         exit(1);
     }
     new_list->val = val;
-    new_list->ptr = lst;
+    new_list->next = lst;
     return new_list;
 }
 
-int sum_list(list* lst){
+int sum_list(intlist* lst){
     int sum = 0;
     if (lst == NULL){
         return 0;
     }
     
-    return lst->val + sum_list(lst->ptr);
+    return lst->val + sum_list(lst->next);
 }
 
-int main1() {
-    list* one = make_list(10, make_list(20, make_list(30, NULL)));
-    list a3 = {30, NULL};
-    list a2 = {20, &a3};
-    list a1 = {10, &a2};
-    printf("%d\n", a1.ptr->ptr->val);
-    printf("%d\n", sum_list(&a1));
-    printf("%d\n", sum_list(one));
-    return 0;
-}a
 
+// free linked list
+void free_list(intlist* list){
+    intlist* next;
+    while(list){
+        next = list->next;
+        free(list);
+        list = next;
+    }
+    printf("list freed \n");
+}
+
+// todo: 1-D and 2-D array free
+
+//
+
+intlist* remove_front(intlist* lst){
+    intlist* temp = lst;
+    free(lst);
+    return temp->next;
+}
+
+// intlist* list1 = make(...)
+// update_front(&list1)
+void update_front(intlist** lst){
+    intlist* temp = *lst;
+    *lst = temp->next;
+    // *lst = *lst->next;
+    free(temp);    
+}
+
+intlist* find_evens(intlist* lst){
+    intlist* curr = lst;
+    intlist* head = NULL;
+    intlist* tail;
+    while(curr){
+        if(curr->val % 2 == 0) {
+            intlist* item = make_list(curr->val, NULL);
+            if(head == NULL){
+                head = item;
+            } else {
+                tail->next = item;
+            }
+            tail = item;
+        }
+        curr = curr->next;
+    }
+    return head;
+}
 
