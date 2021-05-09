@@ -167,27 +167,64 @@ void show_dll(dll_intlist* lst) {
     }
 }
 
+// [helper function: get last element]
+dll_intlist* last(dll_intlist* lst){
+    while(lst != NULL){
+        if(lst->next == NULL){
+            return lst;
+        }
+        lst = lst->next;
+    }
+    return NULL;
+}
+
 // add two digits together 
 dll_intlist* add_digits(dll_intlist* lst1, dll_intlist* lst2){
-    
+    dll_intlist* new_list;
+    dll_intlist* last1 = last(lst1);
+    dll_intlist* last2 = last(lst2);
+    dll_intlist* temp_ptr;
+    int temp_int = 0;
+    // start from last and move to the head
+    while(last1 != NULL && last2 != NULL){
+        temp_ptr = new_list;
+        if(last1->val+last2->val+temp_int >= 10){
+            // first iteration
+            if(new_list == NULL){
+                new_list = make_dll(last1->val+last2->val+temp_int-10, NULL, NULL);
+            } else {
+                new_list->prev = make_dll(last1->val+last2->val+temp_int-10, NULL, temp_ptr);
+            }
+            temp_int = 1;
+            
+        } else {
+            // first iteration
+            if(new_list == NULL){
+                new_list = make_dll(last1->val+last2->val+temp_int, NULL, NULL);
+            } else {
+                new_list->prev = make_dll(last1->val+last2->val+temp_int, NULL, temp_ptr);
+            }
+            temp_int = 0;
+        }
+        new_list = new_list->prev;
+    }
+    return new_list;
 }
 
 
 int main(){
-    dll_intlist *a1, *a2, *a3;
-    a1->val = 1;
-    a1->prev = NULL;
-    a1->next = a2;
-    a2->val = 9;
-    a2->prev = a1;
-    a2->next = NULL;
-    show_dll(a1);
+    dll_intlist a1 = {9, NULL, NULL};
+    dll_intlist a2 = {9, &a1, NULL};
+    dll_intlist a3 = {9, &a2, NULL};
+    a1.next = &a2;
+    a2.next = &a3;
 
-    // dll_intlist* a1 = {1, NULL, NULL};
-    // dll_intlist* a2 = {9, a1, NULL};
-    // dll_intlist* a3 = {3, a2, NULL};
-    // a1->next = a2;
-    // a2->next = a3;
-    // show_dll(a1);
+    dll_intlist b1 = {9, NULL, NULL};
+    dll_intlist b2 = {9, &b1, NULL};
+    b1.next = &b2;
+
+
+
+    show_dll(add_digits(&a1, &b1));
     
 }
