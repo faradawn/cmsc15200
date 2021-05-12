@@ -176,11 +176,6 @@ void pointer_array(){
 }
 
 
-int main() {
-    printf("hi\n");
-    return 0;
-}
-
 // debugger lldb
 /*
  run

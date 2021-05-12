@@ -97,7 +97,6 @@ char** find_matches(char* str, char* pat, unsigned int* nmatches) {
     }
 
     // set values for the output array 
-    // how to combine with count number ?
     unsigned int j = 0;
     for (i = 0; i < strlen(str)-pat_len; i++) {
         while (str[k+i]==pat[k] || pat[k]=='?') {

@@ -48,7 +48,7 @@ int* make_histogram(int a[], int a_len, int* hist_len_ptr) {
     if (arr == NULL) {
         fprintf(stderr, "error allocating histogram arr \n");
         exit(1);
-    }
+    } 
 
     // make the histogram array
     for (int i = 0; i < *hist_len_ptr; i++) {
