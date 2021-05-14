@@ -3,7 +3,8 @@
 #include "adrbook.h"
 
 const char *_bst_todo_format = "TODO [bst]: %s\nhalting\n";
- 
+
+/* Create a bst consisting of one leaf node. */
 bst *bst_singleton(vcard *c)
 {
   bst *out = (bst*)malloc(sizeof(bst));
@@ -17,6 +18,7 @@ bst *bst_singleton(vcard *c)
   return out;
 }
 
+/* Insert a vcard into a non-empty BST. */
 int bst_insert(bst *t, vcard *c)
 {
   if(t == NULL){
@@ -44,6 +46,7 @@ int bst_insert(bst *t, vcard *c)
   return 0;
 }
 
+/* Compute the total number of vcards in the tree. */
 unsigned int bst_num_entries(bst *t)
 {
   if(t == NULL){
@@ -53,20 +56,28 @@ unsigned int bst_num_entries(bst *t)
 
 }
 
+/* The empty bst has height 0. */
 unsigned int bst_height(bst *t)
 {
-  // todo
   if(t == NULL){
     return 0;
-  }
-  return 10;
+  } else {
+    unsigned left = bst_height(t->left);
+    unsigned right = bst_height(t->right);
+    if (left > right) 
+      return 1 + left;
+    else 
+      return 1 + right;
+  }  
 }
 
+/* Return NULL if nothing is found. */
 vcard *bst_search(bst *t, char *cnet, int *n_comparisons)
 {
   int count = 0;
   while(t){
     if(strcmp(cnet, t->c->cnet) == 0){
+      *n_comparisons = count;
       return t->c;
     } else if(strcmp(cnet, t->c->cnet) > 0){
       t = t->right;
@@ -75,7 +86,6 @@ vcard *bst_search(bst *t, char *cnet, int *n_comparisons)
     }
     count ++;
   }
-
   *n_comparisons = count;
   return NULL;
 }
@@ -85,36 +95,32 @@ vcard *bst_search(bst *t, char *cnet, int *n_comparisons)
  * simply use fprintf rather than printf in this function, and pass in f
  * as its first parameter
  */
+/* Show all cnets that start with given character. */
 unsigned int bst_c(FILE *f, bst *t, char c)
 {
   if (t == NULL){
     return 0;
   }
-  // find the smallest qualified cnet 
   if(c == t->c->cnet[0]){
-    if(t->left->c->cnet[0] != c){
-      // print the smallest first
-      fprintf(f, "%s \n", t->c->cnet);
-      return 1 + bst_c(f, t->right, c);
-    } 
-    // then print the current
+    unsigned int left = bst_c(f, t->left, c);
     fprintf(f, "%s \n", t->c->cnet);
-    return 1;
-  } else if (c < t->c->cnet[0]){
-    return bst_c(f, t->left, c);
+    unsigned int right = bst_c(f, t->right, c); 
+    return 1 + left + right;
   } else {
-    return bst_c(f, t->right, c);
+    unsigned int left = bst_c(f, t->left, c);
+    unsigned int right = bst_c(f, t->right, c);  
+    return left + right;
   }
 }
 
+/* Free the bst and all vcards as well. */
 void bst_free(bst *t)
 {
-  if(t->left != NULL){
+  if(t){
     bst_free(t->left);
-    free(t->left);
-  } else if (t->right != NULL){
     bst_free(t->right);
-    free(t->right);
-  }
-  free(t);
+  vcard_free(t->c);
+    if(t->left == NULL && t->right == NULL)
+      free(t);
+  }  
 }

@@ -47,9 +47,13 @@ void vcard_free(vcard *c)
  */
 void vcard_show(FILE *f, vcard *c)
 {
-  fprintf(f, "%s \n", c->cnet);
-  fprintf(f, "%s \n", c->email);
-  fprintf(f, "%s \n", c->fname);
-  fprintf(f, "%s \n", c->lname);
-  fprintf(f, "%s \n", c->tel);
+  if(c == NULL){
+    fprintf(f, "card to show is NULL\n");
+  } else{
+    fprintf(f, "%s \n", c->cnet);
+    fprintf(f, "%s \n", c->email);
+    fprintf(f, "%s \n", c->fname);
+    fprintf(f, "%s \n", c->lname);
+    fprintf(f, "%s \n", c->tel);
+  }
 }
