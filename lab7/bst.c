@@ -3,7 +3,7 @@
 #include "adrbook.h"
 
 const char *_bst_todo_format = "TODO [bst]: %s\nhalting\n";
-
+ 
 bst *bst_singleton(vcard *c)
 {
   bst *out = (bst*)malloc(sizeof(bst));

@@ -8,7 +8,7 @@ const char *_vcard_todo_format = "TODO [vcard]: %s\nhalting\n";
 /* vcard_new : allocate a new vcard, copy all strings, return new object
  * note: this is a "deep copy" as opposed to a "shallow copy"; the string 
  *   arguments are not to be shared by the newly allocated vcard
- */
+ */ 
 vcard *vcard_new(char *cnet, char *email, char *fname, char *lname, char *tel)
 {
   // malloc struct also malloc each string?
