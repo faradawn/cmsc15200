@@ -9,7 +9,7 @@ struct tree {
     inttree* left;
     inttree* right;
 } ;
-
+ 
 inttree* make_tree(int val, inttree* left, inttree* right){
     inttree* tree = (inttree*)malloc(sizeof(inttree));
     if(tree == NULL){
@@ -56,6 +56,10 @@ int count_nodes(inttree* t){
     int right = count_nodes(t->right);
     return 1 + left + right;
 }
+
+// WK7 - `2 
+// remove a node
+// Resursive Move inorder successor 
 
 int main(){
     

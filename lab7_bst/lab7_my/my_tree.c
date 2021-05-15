@@ -3,7 +3,7 @@
 #include <string.h>
 
 // todo: look slide free bst 
-
+ 
 typedef struct {
   char *cnet;
   char *email;
