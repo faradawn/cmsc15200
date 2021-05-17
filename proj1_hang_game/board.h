@@ -3,7 +3,6 @@
  
 #include "pos.h"
 
-
 enum cell {
     EMPTY,
     BLACK,
@@ -33,15 +32,22 @@ struct board {
 
 typedef struct board board;
 
+// [helper function: build a new board_rep]
+board_rep make_rep(unsigned int width, unsigned int height, enum type type);
 
+// build a new board
 board* board_new(unsigned int width, unsigned int height, enum type type);
 
+// free a given board
 void board_free(board* b);
 
+// display a given board
 void board_show(board* b);
 
+// get an element of the board
 cell board_get(board* b, pos p);
 
+// set an element of the board
 void board_set(board* b, pos p, cell c);
 
 #endif /* BOARD_H */
