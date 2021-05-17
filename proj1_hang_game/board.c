@@ -2,12 +2,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// ask: malloc board_rep and make_pos
-
 // [helper function: make a new board_rep]
 board_rep make_rep(unsigned int width, unsigned int height, enum type type){
     board_rep out;
-    
     if(type == MATRIX){
         cell **matrix = (cell**)malloc(sizeof(cell*) * height);
         if(matrix == NULL){
@@ -23,17 +20,20 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
         }
         // make emptry
         for(int i = 0; i < height; i++){
-            for(int j = 0; i < width; j++)
+            for(int j = 0; j < width; j++)
                 matrix[i][j] = EMPTY;
         }
-        
         out.matrix = matrix;
-        out.bits = NULL;
+        
+    } else {
+        fprintf(stderr, "make_rep: error mallocing inner matrix rows\n");
+        exit(1);
     }
-    
     return out;
-}
+    
 
+}
+// build a new board
 board* board_new(unsigned int width, unsigned int height, enum type type){
     if(type == BITS){
         fprintf(stderr, "BITS type\n");
@@ -52,6 +52,7 @@ board* board_new(unsigned int width, unsigned int height, enum type type){
     return out;
 }
 
+// free a given board
 void board_free(board* b){
     // free matrix
     cell **matrix = b->u.matrix;
@@ -74,21 +75,22 @@ void print_index(int i){
         printf("?");
     }
 }
-
+// display a given board
 void board_show(board* b){
     // print header
     int i, j;
-    for(i = -2; i < b->width; i++)
-        print_index(i);
+    for(i = 0; i < b->width + 2; i++){
+        print_index(i-2);
+    }
     printf("\n");
 
-    // switch type
+    // print board
     if(b->type == MATRIX){
         cell** matrix = b->u.matrix;
         for(i = 0; i < b->height; i++){
             print_index(i);
             printf(" ");
-            for(j = 0; i < b->width; j++){
+            for(j = 0; j < b->width; j++){
                 switch (matrix[i][j])
                 {
                 case BLACK:
@@ -97,15 +99,16 @@ void board_show(board* b){
                 case WHITE:
                     printf("o");
                 default:
-                    printf(" ");
+                    printf(".");
                     break;
                 }
             }
             printf("\n");
         }
-        }
+    }
 }
 
+// get an element of the board
 cell board_get(board* b, pos p){
     switch (b->type)
     {
@@ -119,6 +122,7 @@ cell board_get(board* b, pos p){
     }
 }
 
+// set an element of the board
 void board_set(board* b, pos p, cell c){
     switch (b->type)
     {
