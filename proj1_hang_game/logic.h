@@ -16,7 +16,7 @@ typedef enum turn turn;
 enum outcome {
     IN_PROGRESS,
     BLACK_WIN,
-    WHITE_WIN,
+    WHITE_WIN, 
     DRAW
 };
 

@@ -82,14 +82,3 @@ void posqueue_free(posqueue* q){
     }
     free(q);
 }
-
-int main(){
-    posqueue* queue = posqueue_new();
-    pq_entry* pq = make_pq(make_pos(1,1), make_pq(make_pos(1,2), NULL));
-    show_pq(pq);
-    free_pq(pq);
-    queue->head = pq;
-    queue->len = 2;
-
-
-}

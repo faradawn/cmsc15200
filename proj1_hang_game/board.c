@@ -30,9 +30,8 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
         exit(1);
     }
     return out;
-    
-
 }
+
 // build a new board
 board* board_new(unsigned int width, unsigned int height, enum type type){
     if(type == BITS){
@@ -124,21 +123,10 @@ cell board_get(board* b, pos p){
 
 // set an element of the board
 void board_set(board* b, pos p, cell c){
-    switch (b->type)
-    {
-    case MATRIX:
+    if(b->type == MATRIX){
         b->u.matrix[p.r][p.c] = c;
-    case BITS:
+    } else {
         fprintf(stderr, "board_set: error BITS\n");
         exit(1);
-    default:
-        break;
     }
-}
-
-
-int main(){
-    board* b = board_new(5,5,MATRIX);
-    board_show(b);
-    free(b);
 }
