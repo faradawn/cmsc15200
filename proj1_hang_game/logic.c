@@ -22,10 +22,6 @@ game* new_game(unsigned int run, unsigned int hangtime, unsigned int width,
                    }
                    out->player = BLACKS_TURN;
                    out->hanging = posqueue_new();
-                   // add run to start of queue
-                   for(int i = 0; i<run; i++){
-                       pos_enqueue(out->hanging, make_pos(-1,-1));
-                   }
 
                    return out;
                }
@@ -74,48 +70,23 @@ bool place_piece(game* g, pos p){
     }
 
     // update board
-    pos_enqueue(g->hanging, p);
+    posqueue* q = g->hanging;
+    // before hangtime runs out
+    if(q->len <= g->hangtime){
+        pos_enqueue(q, p);
+        return true;
+    } 
 
-    pos de_pos = pos_dequeue(g->hanging);
+    pos de_pos = pos_dequeue(q);
 
     // the frist few moves before run runs out
     if(de_pos.r == -1){
         return true;
     }
 
-    // set the depose piece
-    while(true){
-        // if piece below or at bottom, 
-        if(board_get(b, make_pos(de_pos.r-1, de_pos.c)) != EMPTY ||
-            de_pos.r == 0){
-                // if on top
-                cell above = board_get(b, make_pos(de_pos.r+1, de_pos.c));
-                // innner while
-                if(above != EMPTY){
-                    board_set(b, make_pos(de_pos.r, de_pos.c), above);
-                    // what color, calculate run?
-                    board_set(b, de_pos, next_color);
-                    // update depose
-                }
-            return true;
-            
-        } else if(de_pos.r == 0){ // drop
-            
-        } else{
-
-        }
-            
-        if(board_get(b, make_pos(p.r, p.c-1)) != EMPTY)
-            //
-
-    }
-    if (board_get(b, p) != EMPTY){
-
-    }
-    board_set(b, pos_dequeue(g->hanging), g->player);
-        
     
     
+    pos_enqueue(q, p);
     
 
     // switch player

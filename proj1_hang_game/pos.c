@@ -29,12 +29,12 @@ void free_pq(pq_entry* head){
     }
 }
 
+// [helper function: show the pq linked list]
 void show_pq(pq_entry* pq){
     if(pq){
-        printf("(%u, %u)", pq->p.r, pq->p.c);
+        printf("(%u, %u) ", pq->p.r, pq->p.c);
         show_pq(pq->next);
     }
-    printf("\n");
 }
 
 // 1-2 make a new posqueue of null
@@ -51,7 +51,14 @@ posqueue* posqueue_new(){
 }
 // 1-3 add an element to the tail
 void pos_enqueue(posqueue* q, pos p){
-    q->tail->next = make_pq(p, NULL);
+    if(q->tail == NULL){
+        q->head = make_pq(p, NULL);
+        q->tail = q->head;
+    } else{
+        q->tail->next = make_pq(p, NULL);
+        q->tail = q->tail->next;
+    }
+    q->len = q->len + 1;
 }
 
 // 1-4 delete an element at the head
@@ -63,22 +70,28 @@ pos pos_dequeue(posqueue* q){
     pq_entry* cur = q->head;
     pos out = cur->p;
     q->head = q->head->next;
-    free(cur->next);
-    free(cur);
+    q->len = q->len - 1;
     return out;
 }
 
-bool posqueue_member(posqueue* q, pos p);
+// 1-5 check if the given position is in the queue
+bool posqueue_member(posqueue* q, pos p){
+    pq_entry* lst = q->head;
+    while(lst != NULL){
+        if(lst->p.c == p.c && lst->p.r == p.r){
+            return true;
+        }
+        lst = lst->next;
+    }
+    return false;
+}
 
+// 1-6 free the posqueue
 void posqueue_free(posqueue* q){
-    if(q == NULL){
+    if(q == NULL)
         return;
-    }
-    if(q->head){
+    if(q->head)
         free_pq(q->head);
-    }
-    if(q->tail){
-        free(q->tail);
-    }
+    // todo: why don't need free tail?
     free(q);
 }
