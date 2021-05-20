@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+// todo: check free function
+
 // create a new game struct
 game* new_game(unsigned int run, unsigned int hangtime, unsigned int width,
                unsigned int height, enum type type){
@@ -28,10 +30,11 @@ game* new_game(unsigned int run, unsigned int hangtime, unsigned int width,
 
 // free the game struct [todo: check free other]
 void game_free(game* g){
-    board_free(g->b);
-    posqueue_free(g->hanging);
+    // if(g->b)
+    //     board_free(g->b);
+    // if(g->hanging)
+    //     posqueue_free(g->hanging);
     free(g);
-    printf("game freed\n");
 }
 
 bool pos_compare(pos a, pos b){
@@ -47,7 +50,7 @@ bool place_piece(game* g, pos p){
     board* b = g->b;
     // check ilegal move
     if(board_get(b, p) != EMPTY){
-        printf("already a piece in the cell\n");
+        printf("already a piece in the cell. ");
         return false;
     } else if( p.r >= b->height || p.c >= b->width){
         printf("position out of bound\n");
@@ -78,15 +81,11 @@ bool place_piece(game* g, pos p){
     } 
 
     pos de_pos = pos_dequeue(q);
+    printf("deququed \n");
 
-    // the frist few moves before run runs out
-    if(de_pos.r == -1){
-        return true;
-    }
-
-    
     
     pos_enqueue(q, p);
+    printf("enqueued \n");
     
 
     // switch player
@@ -94,3 +93,21 @@ bool place_piece(game* g, pos p){
 }
 
 outcome game_outcome(game* g);
+
+int main(){
+    printf(">> create new game:\n");
+    game* g = new_game(3,2,8,4,MATRIX);
+    board_show(g->b);
+
+    printf("\n>> place Black at (1.1): ");
+    printf(place_piece(g, make_pos(1,1)) ? "true" : "false");
+
+    printf("\n>> place White at (1.1): ");
+    printf(place_piece(g, make_pos(1,1)) ? "true" : "false" );
+
+    
+
+    printf(">> free game:\n");
+    game_free(g);
+    printf("game freed\n");
+}
