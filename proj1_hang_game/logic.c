@@ -111,3 +111,5 @@ int main(){
     game_free(g);
     printf("game freed\n");
 }
+
+// leaks --atExit -- ./leak
