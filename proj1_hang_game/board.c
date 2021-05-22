@@ -109,6 +109,10 @@ void board_show(board* b){
 
 // get an element of the board
 cell board_get(board* b, pos p){
+    if(p.r>b->height-1 || p.r<0 || p.c<0 || p.c>b->width-1){
+        fprintf(stderr, "board_get: position out: (%d, %d)\n", p.r, p.c);
+        exit(1);
+    }
     switch (b->type)
     {
     case MATRIX:

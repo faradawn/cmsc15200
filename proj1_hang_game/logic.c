@@ -61,7 +61,7 @@ bool place_piece(game* g, pos p){
     turn cur_turn = g->player;
     cell cur_color = BLACK;
     cell next_color = WHITE;
-    if(cur_turn = BLACKS_TURN){
+    if(cur_turn == BLACKS_TURN){
         board_set(b, p, BLACK); 
         g->player = WHITES_TURN;
     }
@@ -75,17 +75,46 @@ bool place_piece(game* g, pos p){
     // update board
     posqueue* q = g->hanging;
     // before hangtime runs out
-    if(q->len <= g->hangtime){
+    if(q->len < g->hangtime){
         pos_enqueue(q, p);
         return true;
     } 
 
     pos de_pos = pos_dequeue(q);
-    printf("deququed \n");
+    printf(" deququed (%d, %d) \n", de_pos.r, de_pos.c);
 
-    
+    // if no piece above, set Empty
+    if(board_get(b, make_pos(de_pos.r-1, de_pos.c)) == EMPTY)
+        board_set(b, de_pos, EMPTY);
+
+    // descend de_pos level by level
+    if(de_pos.r < b->height){
+        while(board_get(b, make_pos(de_pos.r+1, de_pos.c)) == EMPTY){
+            printf(" while first (%d, %d) \n", de_pos.r, de_pos.c);
+            pos above_pos = make_pos(de_pos.r-1, de_pos.c);
+            while(above_pos.r >= 0 && posqueue_member(q, above_pos)){
+                board_set(b, de_pos, board_get(b, above_pos));
+                board_set(b, above_pos, EMPTY);
+                above_pos = make_pos(above_pos.r-1, above_pos.c);
+                printf("inner while\n");
+            }
+            de_pos = make_pos(de_pos.r+1, de_pos.c);
+            if(de_pos.r+1 >= b->height)
+                break;
+            
+        }
+    }
+
+    // after descend, place de_pos on board
+    cell color = (g->hangtime % 2 == 0) ? cur_color : next_color;
+    printf("cell color: %d\n", color);
+    board_set(b, de_pos, color);
+
+    // enqueue the new piece     
     pos_enqueue(q, p);
     printf("enqueued \n");
+
+    return true;
     
 
     // switch player
@@ -99,12 +128,29 @@ int main(){
     game* g = new_game(3,2,8,4,MATRIX);
     board_show(g->b);
 
-    printf("\n>> place Black at (1.1): ");
-    printf(place_piece(g, make_pos(1,1)) ? "true" : "false");
+    printf("\n>> 1: place Black at (1.1): ");
+    printf(place_piece(g, make_pos(1,1)) ? "true\n" : "false\n");
+    board_show(g->b);
+    show_pq(g->hanging->head);  
 
     printf("\n>> place White at (1.1): ");
-    printf(place_piece(g, make_pos(1,1)) ? "true" : "false" );
+    place_piece(g, make_pos(1,1));
+    board_show(g->b);
 
+    printf("\n\n>> 2: place White at (0.3): ");
+    printf(place_piece(g, make_pos(0,3)) ? "true\n" : "false\n" );
+    board_show(g->b);
+    show_pq(g->hanging->head);
+
+    printf("\n\n>> 3: place Black at (2.3): ");
+    printf(place_piece(g, make_pos(2,3)) ? "true\n" : "false\n" );
+    board_show(g->b);
+    show_pq(g->hanging->head);
+
+    printf("\n\n>> 4: place Black at (1.2): ");
+    printf(place_piece(g, make_pos(1,2)) ? "true\n" : "false\n" );
+    board_show(g->b);
+    show_pq(g->hanging->head);
     
 
     printf(">> free game:\n");
