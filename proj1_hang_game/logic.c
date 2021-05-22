@@ -47,8 +47,8 @@ bool pos_compare(pos a, pos b){
 
 // place a piece in the game
 bool place_piece(game* g, pos p){
+    // check if move is ilegal
     board* b = g->b;
-    // check ilegal move
     if(board_get(b, p) != EMPTY){
         printf("already a piece in the cell. ");
         return false;
@@ -57,7 +57,7 @@ bool place_piece(game* g, pos p){
         return false;
     }
     
-    // place piece and switch turns
+    // place the piece and switch turns
     turn cur_turn = g->player;
     cell cur_color = BLACK;
     cell next_color = WHITE;
@@ -72,36 +72,38 @@ bool place_piece(game* g, pos p){
         g->player = BLACKS_TURN;
     }
 
-    // update board
+    
+    // if hangtime doesn't runs out, don't dequeue
     posqueue* q = g->hanging;
-    // before hangtime runs out
     if(q->len < g->hangtime){
         pos_enqueue(q, p);
         return true;
     } 
 
+    // prepare to deploy the dequeued piece   
     pos de_pos = pos_dequeue(q);
     printf(" deququed (%d, %d) \n", de_pos.r, de_pos.c);
+    board_set(b, de_pos, EMPTY);
 
-    // if no piece above, set Empty
-    if(board_get(b, make_pos(de_pos.r-1, de_pos.c)) == EMPTY)
-        board_set(b, de_pos, EMPTY);
-
-    // descend de_pos level by level
+    // descend the to-be-deplyed de_pos level by level
     if(de_pos.r < b->height){
         while(board_get(b, make_pos(de_pos.r+1, de_pos.c)) == EMPTY){
             printf(" while first (%d, %d) \n", de_pos.r, de_pos.c);
-            pos above_pos = make_pos(de_pos.r-1, de_pos.c);
-            while(above_pos.r >= 0 && posqueue_member(q, above_pos)){
-                board_set(b, de_pos, board_get(b, above_pos));
-                board_set(b, above_pos, EMPTY);
-                above_pos = make_pos(above_pos.r-1, above_pos.c);
-                printf("inner while\n");
+            // descend the above pieces down
+            if(de_pos.r >= 1){
+                pos above_pos = make_pos(de_pos.r-1, de_pos.c);
+                printf(" above is (%d, %d) \n", above_pos.r, above_pos.c);
+                while(above_pos.r >= 0 && board_get(b, above_pos)!= EMPTY && 
+                !posqueue_member(q, above_pos)){
+                    board_set(b, de_pos, board_get(b, above_pos));
+                    board_set(b, above_pos, EMPTY);
+                    above_pos = make_pos(above_pos.r-1, above_pos.c);
+                    printf("inner while\n");
+                }
             }
             de_pos = make_pos(de_pos.r+1, de_pos.c);
             if(de_pos.r+1 >= b->height)
                 break;
-            
         }
     }
 
@@ -147,8 +149,18 @@ int main(){
     board_show(g->b);
     show_pq(g->hanging->head);
 
-    printf("\n\n>> 4: place Black at (1.2): ");
+    printf("\n\n>> 4: place White at (1.2): ");
     printf(place_piece(g, make_pos(1,2)) ? "true\n" : "false\n" );
+    board_show(g->b);
+    show_pq(g->hanging->head);
+
+    printf("\n\n>> 5: place Black at (0.2): ");
+    printf(place_piece(g, make_pos(0,2)) ? "true\n" : "false\n" );
+    board_show(g->b);
+    show_pq(g->hanging->head);
+
+    printf("\n\n>> 6: place White at (1.4): ");
+    printf(place_piece(g, make_pos(1,4)) ? "true\n" : "false\n" );
     board_show(g->b);
     show_pq(g->hanging->head);
     

@@ -74,6 +74,7 @@ void print_index(int i){
         printf("?");
     }
 }
+
 // display a given board
 void board_show(board* b){
     // print header
@@ -97,6 +98,7 @@ void board_show(board* b){
                     break;
                 case WHITE:
                     printf("o");
+                    break;
                 default:
                     printf(".");
                     break;
