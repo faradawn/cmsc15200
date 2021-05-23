@@ -51,7 +51,6 @@ int main(){
     printf("\n>> 1: place Black at (1.1): ");
     printf(place_piece(g, make_pos(1,1)) ? "true\n" : "false\n");
     board_show(g->b);
-    show_pq(g->hanging->head);  
 
     printf("\n>> place White at (1.1): ");
     place_piece(g, make_pos(1,1));
@@ -60,27 +59,23 @@ int main(){
     printf("\n\n>> 2: place White at (0.3): ");
     printf(place_piece(g, make_pos(0,3)) ? "true\n" : "false\n" );
     board_show(g->b);
-    show_pq(g->hanging->head);
 
     printf("\n\n>> 3: place Black at (2.3): ");
     printf(place_piece(g, make_pos(2,3)) ? "true\n" : "false\n" );
     board_show(g->b);
-    show_pq(g->hanging->head);
 
     printf("\n\n>> 4: place White at (1.2): ");
     printf(place_piece(g, make_pos(1,2)) ? "true\n" : "false\n" );
     board_show(g->b);
-    show_pq(g->hanging->head);
 
     printf("\n\n>> 5: place Black at (0.2): ");
     printf(place_piece(g, make_pos(0,2)) ? "true\n" : "false\n" );
     board_show(g->b);
-    show_pq(g->hanging->head);
 
     printf("\n\n>> 6: place White at (1.4): ");
     printf(place_piece(g, make_pos(1,4)) ? "true\n" : "false\n" );
     board_show(g->b);
-    show_pq(g->hanging->head);
+
 
     switch (game_outcome(g))
     {
@@ -96,9 +91,8 @@ int main(){
         printf("In Progress!\n");
         break;
     }
-    
 
-    printf(">> free game:\n");
+    printf("\n>> free game:\n");
     game_free(g);
     printf("game freed\n");
 }

@@ -44,7 +44,7 @@ bool place_piece(game* g, pos p){
     // check if move is ilegal
     board* b = g->b;
     if(board_get(b, p) != EMPTY){
-        printf("already a piece in the cell. ");
+        printf("already a piece in the cell!\n");
         return false;
     } else if( p.r >= b->height || p.c >= b->width){
         printf("position out of bound\n");
@@ -76,23 +76,19 @@ bool place_piece(game* g, pos p){
 
     // prepare to deploy the dequeued piece   
     pos de_pos = pos_dequeue(q);
-    printf(" deququed (%d, %d) \n", de_pos.r, de_pos.c);
     board_set(b, de_pos, EMPTY);
 
     // descend the to-be-deplyed de_pos level by level
     if(de_pos.r < b->height){
         while(board_get(b, make_pos(de_pos.r+1, de_pos.c)) == EMPTY){
-            printf(" while first (%d, %d) \n", de_pos.r, de_pos.c);
             // descend the above pieces down
             if(de_pos.r >= 1){
                 pos above_pos = make_pos(de_pos.r-1, de_pos.c);
-                printf(" above is (%d, %d) \n", above_pos.r, above_pos.c);
                 while(above_pos.r >= 0 && board_get(b, above_pos)!= EMPTY && 
                 !posqueue_member(q, above_pos)){
                     board_set(b, de_pos, board_get(b, above_pos));
                     board_set(b, above_pos, EMPTY);
                     above_pos = make_pos(above_pos.r-1, above_pos.c);
-                    printf("inner while\n");
                 }
             }
             // stop condition for descend 
@@ -104,12 +100,10 @@ bool place_piece(game* g, pos p){
 
     // determine the color of the de_pos piece 
     cell color = (g->hangtime % 2 == 0) ? cur_color : next_color;
-    printf("cell color: %d\n", color);
     board_set(b, de_pos, color);
 
     // enqueue the new piece     
     pos_enqueue(q, p);
-    printf("enqueued \n");
 
     return true;    
 }
@@ -121,7 +115,6 @@ unsigned int r, unsigned int c){
         return 0;
     
     if(dir == RIGHT){
-        printf("checking right (%d, %d), ", r, c+1);
         if(r <= b->height-1 && c < b->width-1 && 
         board_get(b, make_pos(r, c+1)) == color){
             return 1 + num_run(b, color, RIGHT, r, c+1);
@@ -129,7 +122,6 @@ unsigned int r, unsigned int c){
             return 0;
         }
     }else if(dir == DOWN){
-        printf("checking down (%d, %d), ", r+1, c);
         if(r < b->height-1 && c <= b->width-1 && 
         board_get(b, make_pos(r+1, c)) == color){
             return 1 + num_run(b, color, DOWN, r+1, c);
@@ -137,7 +129,6 @@ unsigned int r, unsigned int c){
             return 0;
         }
     }else if(dir == UP_RIGHT){
-        printf("checking upright (%d, %d), ", r-1, c+1);
         if(r > 0 && c < b->width-1 && 
         board_get(b, make_pos(r-1, c+1)) == color){
             return 1 + num_run(b, color, UP_RIGHT, r-1, c+1);
@@ -145,7 +136,6 @@ unsigned int r, unsigned int c){
             return 0;
         }
     }else{
-        printf("checking upright (%d, %d), ", r+1, c+1);
         if(r < b->height-1 && c < b->width-1 && 
         board_get(b, make_pos(r+1, c+1)) == color){
             return 1 + num_run(b, color, UP_RIGHT, r+1, c+1);
@@ -193,66 +183,3 @@ outcome game_outcome(game* g){
     }
 
 }
-
-
-// int main(){
-//     printf(">> create new game:\n");
-//     game* g = new_game(3,2,8,4,MATRIX);
-//     board_show(g->b);
-
-//     printf("\n>> 1: place Black at (1.1): ");
-//     printf(place_piece(g, make_pos(1,1)) ? "true\n" : "false\n");
-//     board_show(g->b);
-//     show_pq(g->hanging->head);  
-
-//     printf("\n>> place White at (1.1): ");
-//     place_piece(g, make_pos(1,1));
-//     board_show(g->b);
-
-//     printf("\n\n>> 2: place White at (0.3): ");
-//     printf(place_piece(g, make_pos(0,3)) ? "true\n" : "false\n" );
-//     board_show(g->b);
-//     show_pq(g->hanging->head);
-
-//     printf("\n\n>> 3: place Black at (2.3): ");
-//     printf(place_piece(g, make_pos(2,3)) ? "true\n" : "false\n" );
-//     board_show(g->b);
-//     show_pq(g->hanging->head);
-
-//     printf("\n\n>> 4: place White at (1.2): ");
-//     printf(place_piece(g, make_pos(1,2)) ? "true\n" : "false\n" );
-//     board_show(g->b);
-//     show_pq(g->hanging->head);
-
-//     printf("\n\n>> 5: place Black at (0.2): ");
-//     printf(place_piece(g, make_pos(0,2)) ? "true\n" : "false\n" );
-//     board_show(g->b);
-//     show_pq(g->hanging->head);
-
-//     printf("\n\n>> 6: place White at (1.4): ");
-//     printf(place_piece(g, make_pos(1,4)) ? "true\n" : "false\n" );
-//     board_show(g->b);
-//     show_pq(g->hanging->head);
-
-//     switch (game_outcome(g))
-//     {
-//     case BLACK_WIN:
-//         printf("Black Win!\n");
-//         break;
-//     case WHITE_WIN:
-//         printf("White Win!\n");
-//         break;
-//     case DRAW:
-//         printf("Draw!\n");
-//     default:
-//         printf("In Progress!\n");
-//         break;
-//     }
-    
-
-//     printf(">> free game:\n");
-//     game_free(g);
-//     printf("game freed\n");
-// }
-
-// // leaks --atExit -- ./leak
