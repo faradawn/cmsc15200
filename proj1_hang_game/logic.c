@@ -26,18 +26,13 @@ game* new_game(unsigned int run, unsigned int hangtime, unsigned int width,
                    return out;
                }
 
-// free the game struct [todo: check free other]
+// free the game struct 
 void game_free(game* g){
+    board_free(g->b); 
+    posqueue_free(g->hanging); 
     free(g);
+    printf("game freed\n");
 }
-
-bool pos_compare(pos a, pos b){
-    if(a.c == b.c && a.r == b.r)
-        return true;
-    else 
-        return false;
-}
-
 
 // place a piece in the game
 bool place_piece(game* g, pos p){

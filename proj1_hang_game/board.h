@@ -51,3 +51,4 @@ cell board_get(board* b, pos p);
 void board_set(board* b, pos p, cell c);
 
 #endif /* BOARD_H */
+ 

@@ -88,10 +88,13 @@ bool posqueue_member(posqueue* q, pos p){
 
 // 1-6 free the posqueue
 void posqueue_free(posqueue* q){
-    if(q == NULL)
-        return;
-    if(q->head)
-        free_pq(q->head);
-    // todo: why don't need free tail?
-    free(q);
+   while(q && q->head){
+       pq_entry* temp = q->head;
+       q->head = q->head->next;
+       free(temp);
+   }
+   free(q);
+
+   printf("queue freed\n");
+
 }

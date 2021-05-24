@@ -26,7 +26,7 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
         out.matrix = matrix;
         
     } else {
-        fprintf(stderr, "make_rep: error mallocing inner matrix rows\n");
+        fprintf(stderr, "make_rep: BITS\n");
         exit(1);
     }
     return out;
@@ -53,13 +53,12 @@ board* board_new(unsigned int width, unsigned int height, enum type type){
 
 // free a given board
 void board_free(board* b){
-    // free matrix
-    cell **matrix = b->u.matrix;
-    for(int i = 0; i < b->width; i++){
-        free(matrix[i]);
+    for(int i = 0; i < b->height; i++){
+        free(b->u.matrix[i]);
     }
-    free(matrix);
+    free(b->u.matrix);
     free(b);
+    printf("board freed\n");
 }
 
 // [healper funciton: print header or left bar of the board]

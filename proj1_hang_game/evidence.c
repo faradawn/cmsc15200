@@ -5,7 +5,7 @@
 
 int main(){
     // Part1: Testing pos.c
-    printf("=== Part1: Pos ===\n");
+    printf("\n=== Part1: Pos ===\n");
     printf(">> create new queue:\n");
     posqueue* q = posqueue_new();
     printf("empty queue create\n\n");
@@ -38,7 +38,7 @@ int main(){
     board_show(b);
     // free board
     printf("\n>> free board:\n");
-    free(b);
+    board_free(b);
     printf("board freed\n");
 
 
@@ -76,6 +76,7 @@ int main(){
     printf(place_piece(g, make_pos(1,4)) ? "true\n" : "false\n" );
     board_show(g->b);
 
+    printf("\n\n>>check outcome: ");
 
     switch (game_outcome(g))
     {
@@ -94,5 +95,5 @@ int main(){
 
     printf("\n>> free game:\n");
     game_free(g);
-    printf("game freed\n");
+    
 }
