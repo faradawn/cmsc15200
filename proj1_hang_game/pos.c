@@ -22,7 +22,6 @@ pq_entry* make_pq(pos p, pq_entry* next){
 
 // [helper function: free one pq_entry element]
 void free_pq(pq_entry* head){
-    // free p struct and next pointer
     if(head){
         free_pq(head->next);
         free(head);
@@ -70,6 +69,7 @@ pos pos_dequeue(posqueue* q){
     pq_entry* cur = q->head;
     pos out = cur->p;
     q->head = q->head->next;
+    free(cur);
     q->len = q->len - 1;
     return out;
 }
@@ -88,13 +88,8 @@ bool posqueue_member(posqueue* q, pos p){
 
 // 1-6 free the posqueue
 void posqueue_free(posqueue* q){
-   while(q && q->head){
-       pq_entry* temp = q->head;
-       q->head = q->head->next;
-       free(temp);
-   }
-   free(q);
-
+    if(q)
+        free_pq(q->head);
+        
    printf("queue freed\n");
-
 }
