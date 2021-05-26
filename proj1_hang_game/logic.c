@@ -137,7 +137,6 @@ unsigned int r, unsigned int c){
         } else{
             return 0;
         }
-
     }
    
 }
