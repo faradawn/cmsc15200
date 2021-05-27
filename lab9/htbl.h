@@ -24,7 +24,7 @@ struct hash_table {
 /* bucket_cons : (char*, unsigned long, bucket*) -> bucket* */
 /* build new list with given string at the head, list b after it */
 /* note: copy the given string to the list (deep copy) */
-bucket *bucket_cons(char *s, unsigned long int hash, bucket *b);
+bucket *bucket_cons(char *s, unsigned long int hash, bucket *b); 
 
 /* bucket_size : bucket* -> int */
 /* return the number of strings in the given bucket */
