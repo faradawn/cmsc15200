@@ -34,24 +34,26 @@ void bucket_show(bucket *b)
   }
 }
 
+// free the bucket linked list
 void bucket_free(bucket *b)
 {
   if(b){
     bucket_free(b->next);
+    free(b->string);
     free(b);
   }
 }
 
-int main(){
-  // Part1: Bucket
-  printf("\n=== Part1: Bucket ===\n");
-  printf(">> build bucket:\n");
-  bucket* b = bucket_cons("alice", 10, bucket_cons("bob", 11, bucket_cons("catherine", 12, NULL)));
-  printf("bucket built\n");
-  printf("\nshow bucket:");
-  bucket_show(b);
-  printf("\n>> bucket size: %u\n", bucket_size(b));
-  printf("\n>> free bucket:\n");
-  bucket_free(b);
-  printf("bucket freed\n");
-}
+// int main(){
+//   // Part1: Bucket
+//   printf("\n=== Part1: Bucket ===\n");
+//   printf(">> build bucket:\n");
+//   bucket* b = bucket_cons("alice", 10, bucket_cons("bob", 11, bucket_cons("catherine", 12, NULL)));
+//   printf("bucket built\n");
+//   printf("\nshow bucket:");
+//   bucket_show(b);
+//   printf("\n>> bucket size: %u\n", bucket_size(b));
+//   printf("\n>> free bucket:\n");
+//   bucket_free(b);
+//   printf("bucket freed\n");
+// }
