@@ -46,6 +46,7 @@ htbl *htbl_new(unsigned long int(*h)(char*), unsigned int sz)
   return out;
 }
 
+// counts total items in all buckets
 unsigned int htbl_n_entries(htbl *t)
 {
   unsigned int count = 0;
@@ -55,11 +56,13 @@ unsigned int htbl_n_entries(htbl *t)
   return count;
 }
 
+// compute the average bucket items
 double htbl_load_factor(htbl *t)
 {
   return (double) htbl_n_entries(t) / t->n_buckets;
 }
 
+// count the max number of items of buckets
 unsigned int htbl_max_bucket(htbl *t)
 {
   unsigned int max = 0;
@@ -71,37 +74,59 @@ unsigned int htbl_max_bucket(htbl *t)
 
 }
 
+// insert an item into a bucket
 void htbl_insert(char *s, htbl *t)
 {
-  fprintf(stderr,"todo: htbl_insert\n");
-  exit(1);
+  long unsigned int hash_val = t->hash(s);
+  long unsigned int index = hash_val % t->n_buckets;
+  bucket *b = t->buckets[index];
+
+  if(b == NULL){
+    t->buckets[index] = bucket_cons(s, hash_val, NULL);
+  } else{
+    t->buckets[index] = bucket_cons(s, hash_val, b);
+  }
+
 }
 
+// check if the given string is a memebr of htbl
 int htbl_member(char *s, htbl *t)
 {
-  fprintf(stderr,"todo: htbl_member\n");
-  exit(1);
+  long unsigned int hash_val = t->hash(s);
+  long unsigned int index = t->hash(s) % t->n_buckets;
+  bucket *b;
+  b = t->buckets[index];
+  while(b){
+    if(b->hash == hash_val){
+      if(strcmp(s, b->string) == 0)
+        return 1;
+    }
+    b = b->next;
+  }
+  
+  return 0;
 }
 
+// show all the strings in htbl
 void htbl_show(htbl *t)
 {
-  fprintf(stderr,"todo: htbl_show\n");
-  exit(1);
+  bucket *b;
+  for(int i = 0; i<t->n_buckets; i++){
+    b = t->buckets[i];
+    printf("bucket %d: ", i);
+    while(b){
+      printf("%s ", b->string);
+      b = b->next;
+    }
+    printf("\n");
+  }
 }
 
+// free the htbl
 void htbl_free(htbl *t)
 {
   for(int i = 0; i<t->n_buckets; i++){
     bucket_free(t->buckets[i]);
   }
   free(t);
-}
-
-int main(){
-  htbl* t = htbl_new(good_hash, 2);
-  t->buckets[0] = bucket_cons("alice", 10, bucket_cons("bob", 11, bucket_cons("catherine", 12, NULL)));
-  t->buckets[1] = bucket_cons("dylan", 13, bucket_cons("emily", 14, NULL));
-  printf("show: %s\n", t->buckets[0]->string);
-  printf("num entry: %u\n", htbl_n_entries(t));
-  htbl_free(t);
 }
