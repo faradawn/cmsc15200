@@ -10,25 +10,19 @@ void getASCII(char c){
 
 }
 
-unsigned int toInteger(char c){
-    printf("ASCII of input: %d\n", c);
-    int n = (int)c;
-    return c-48;
+// outputs the ASCII value
+int printASCII(char c){
+    return (int)c;
 }
 
-unsigned int toInteger2(char c){
-    printf("ASCII of input: %d\n", c);
-    int n = (int)c;
-    return c-48;
-}
-
-int main(){
-    
+int main(){  
     while(1){
-        char c,r;
-        printf("enter char from 1-10: ");
-        scanf("%c%c*c", &c, &r);
-        printf("print value: %u, %u\n", toInteger(c), toInteger2(r));
+        char ch1,ch2;
+        printf("enter two ones: ");
+        scanf("%c%c%*c", &ch1, &ch2);
+        printf("print ASCII: %d, %d\n", (int)ch1, (int)ch2);
+        // input: 1, 1 , output ASCII becomes 49, 10 
+        // why the second output is 10?
     }
 }
 
