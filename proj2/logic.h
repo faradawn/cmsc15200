@@ -58,4 +58,7 @@ typedef enum direction direction;
 int num_run(board* b, cell color, direction dir, 
 unsigned int r, unsigned int c);
 
+// [helper function: convert char input to unsigned int]
+unsigned int toInteger(char c);
+
 #endif /* LOGIC_H */
