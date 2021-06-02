@@ -51,13 +51,13 @@ int main(int argc, char **argv){
     do {
         printf(g->player == BLACKS_TURN ? "Black enter: " : "White enter: ");
         char row, col;
-        scanf("%c%c*c", &row, &col); // change to char that handles 1-10, A-Z
+        scanf("%c%c%*c", &row, &col); // change to char that handles 1-10, A-Z
         pos p = make_pos(toInteger(row),toInteger(col));
         printf("pos entered: (%u,%u)\n", p.r, p.c);
         while(p.r>b->height-1 || p.r<0 || p.c<0 || p.c>b->width-1
         || board_get(b, p) != EMPTY ){
             printf("invalid pos, re-enter: ");
-            scanf("%c%c*c", &row, &col);
+            scanf("%c%c%*c", &row, &col);
             p = make_pos(toInteger(row),toInteger(col));
         }
         place_piece(g, p);
@@ -81,12 +81,9 @@ int main(int argc, char **argv){
         break;
     }
 
-
-
     // free game
     game_free(g);
 
 }
 
-// make play; ./play -w 8 -h 4 -r 3 -t 2
-// make play; ./play -w 5 -h 3 -r 2 -t 3
+// make play; ./play -w 8 -h 4 -r 3 -t 2 -b

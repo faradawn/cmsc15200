@@ -74,7 +74,7 @@ void board_free(board* b){
 }
 
 
-// [healper funciton: print header or left bar of the board]
+// [helper funciton: print header or left bar of the board]
 void print_index(int i){
     if(i < 0){
         printf(" ");
@@ -180,9 +180,9 @@ cell board_get(board* b, pos p){
         unsigned int k = count % 32, index = count / 32;
         unsigned int element = b->u.bits[index];
         if(element>>k & 1) // first bit is 1 -> white
-            return WHITE;
-        else if (element>>(k+1) & 1) // second bit is 1 -> black
             return BLACK;
+        else if (element>>(k+1) & 1) // second bit is 1 -> black
+            return WHITE;
         else 
             return EMPTY;
     }
@@ -204,8 +204,8 @@ void board_set(board* b, pos p, cell c){
             element = setOne(element, k);
             b->u.bits[index] = setZero(element, k+1);
         } else if(c == WHITE){
-            element = setOne(element, k+1);
-            b->u.bits[index] = setZero(element, k);
+            element = setZero(element, k);
+            b->u.bits[index] = setOne(element, k+1);
         } else {
             element = setZero(element, k);
             b->u.bits[index] = setZero(element, k+1);

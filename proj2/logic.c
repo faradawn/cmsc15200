@@ -143,8 +143,7 @@ unsigned int r, unsigned int c){
 
 outcome game_outcome(game* g){
     if(g->b->type == BITS){
-        fprintf(stderr, "BITS\n");
-        exit(1);
+        return IN_PROGRESS;
     }
     int black_win = 0;
     int white_win = 0;
