@@ -11,17 +11,18 @@ game* new_game(unsigned int run, unsigned int hangtime, unsigned int width,
                        fprintf(stderr, "run too long\n");
                        exit(1);
                    }
+                   // create a game
                    game* out = (game*)malloc(sizeof(game));
-                   out->run = run;
-                   out->hangtime = hangtime;
-                   if(type == MATRIX){
-                       out->b = board_new(width, height, type);
-                   } else {
-                       fprintf(stderr, "new_game: BITS error\n");
+                   if(out == NULL){
+                       fprintf(stderr, "new_game: malloc game out\n");
                        exit(1);
                    }
-                   out->player = BLACKS_TURN;
+
+                   out->b = board_new(width, height, type);
                    out->hanging = posqueue_new();
+                   out->run = run;
+                   out->hangtime = hangtime;
+                   out->player = BLACKS_TURN;
 
                    return out;
                }
