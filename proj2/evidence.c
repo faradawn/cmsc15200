@@ -25,7 +25,7 @@ int main(){
     // Part2: Testing board.c
     printf("\n=== Part2: Board ===\n");
     printf(">> create new board:\n\n");
-    board* b = board_new(8,4,MATRIX);
+    board* b = board_new(8,4,BITS);
     board_show(b);
     // place two pieces
     printf("\n>> place a BLACK piece on pos(1,1):\n");
@@ -45,7 +45,7 @@ int main(){
     // Part3: Testing logic.c
     printf("\n=== Part3: Logic ===\n");
     printf(">> create new game:\n");
-    game* g = new_game(3,2,8,4,MATRIX);
+    game* g = new_game(3,2,8,4,BITS);
     board_show(g->b);
 
     printf("\n>> 1: place Black at (1.1): ");

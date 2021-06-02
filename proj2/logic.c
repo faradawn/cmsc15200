@@ -61,7 +61,6 @@ bool place_piece(game* g, pos p){
         board_set(b, p, WHITE);   
         g->player = BLACKS_TURN;
     }
-
     
     // if hangtime doesn't runs out, don't dequeue
     posqueue* q = g->hanging;

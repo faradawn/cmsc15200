@@ -199,42 +199,17 @@ void board_set(board* b, pos p, cell c){
         unsigned int count = p.r * b->width*2 + p.c*2;
         unsigned int k = count % 32, index = count / 32;
         unsigned int element = b->u.bits[index];
-        printf("set index: %d\n", index);
-        printf("set k: %u\n", k);
+   
         if(c == BLACK){
             element = setOne(element, k);
             b->u.bits[index] = setZero(element, k+1);
         } else if(c == WHITE){
-            element = setZero(element, k);
-            b->u.bits[index] = setOne(element, k+1);
+            element = setOne(element, k+1);
+            b->u.bits[index] = setZero(element, k);
         } else {
             element = setZero(element, k);
             b->u.bits[index] = setZero(element, k+1);
         }
     }
     
-}
-
-int main(){
-    // Part2: Testing board.c
-    printf("\n=== Part2: Board ===\n");
-    printf(">> create new board:\n\n");
-    board* b = board_new(9, 4, BITS);
-    board_show(b);
-    
-    // place piece 
-    board_set(b, make_pos(3,6), BLACK);
-    board_show(b);
-    board_set(b, make_pos(3,7), WHITE);
-    board_show(b);
-    board_set(b, make_pos(3,8), BLACK);
-    board_show(b);
-    printf("got: %d\n", board_get(b, make_pos(3,5)));
-    printf("got: %d\n", board_get(b, make_pos(3,7)));
-    printf("got: %d\n", board_get(b, make_pos(3,8)));
-
-    // free board
-    printf("\n>> free board:\n");
-    board_free(b);
-
 }
