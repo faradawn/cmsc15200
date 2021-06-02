@@ -57,5 +57,6 @@ unsigned int setOne(unsigned int num, unsigned int i);
 // [helper function: set ith bit in a number 0]
 unsigned int setZero(unsigned int num, unsigned int i);
 
+
 #endif /* BOARD_H */
  

@@ -61,4 +61,7 @@ unsigned int r, unsigned int c);
 // [helper function: convert char input to unsigned int]
 unsigned int toInteger(char c);
 
+// [helper function: check if the board is full]
+bool check_full(board* b);
+
 #endif /* LOGIC_H */

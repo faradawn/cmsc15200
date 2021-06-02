@@ -24,14 +24,11 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
             for(int j = 0; j < width; j++)
                 matrix[i][j] = EMPTY;
         }
-        out.matrix = matrix;
-        
+        out.matrix = matrix;  
     } 
-
     // make BITS board 
     else { 
         int arr_len = width * height / 16 + 1;
-        printf("bits array length: %d\n", arr_len);
         unsigned int* bits = (unsigned int*)(calloc(arr_len, sizeof(unsigned int)));
         if(bits == NULL){
             fprintf(stderr, "make_rep: error mallocing bits\n");
@@ -39,7 +36,6 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
         }
         out.bits = bits;
     }
-
     return out;
 }
 
@@ -78,9 +74,9 @@ void board_free(board* b){
 void print_index(int i){
     if(i < 0){
         printf(" ");
-    } else if(i >= 0 && i < 9){
+    } else if(i >= 0 && i <= 9){
         printf("%d", i);
-    } else if(i >= 10 && i < 36){
+    } else if(i > 9 && i < 36){
         printf("%c", 'A'+i-10);
     } else{
         printf("?");

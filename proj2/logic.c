@@ -141,22 +141,32 @@ unsigned int r, unsigned int c){
    
 }
 
-outcome game_outcome(game* g){
-    if(g->b->type == BITS){
-        return IN_PROGRESS;
+// [helper function: check if the board is full]
+bool check_full(board* b){
+    for(int i = 0; i<b->height; i++){
+        for(int j = 0; j<b->width; j++){
+            if(board_get(b, make_pos(i,j)) != EMPTY){
+                return false;
+            }
+        }
     }
+    return true;
+}
+
+outcome game_outcome(game* g){
+
     int black_win = 0;
     int white_win = 0;
-    cell** mat = g->b->u.matrix;
 
     // loop through every cell and count the runs
     for(int i=0; i<g->b->height; i++){
         for(int j=0; j<g->b->width; j++){
-            if(num_run(g->b, mat[i][j], RIGHT, i, j) >= g->run-1 || 
-            num_run(g->b, mat[i][j], DOWN, i, j) >= g->run-1 || 
-            num_run(g->b, mat[i][j], UP_RIGHT, i, j) >= g->run-1 ||
-            num_run(g->b, mat[i][j], DOWN_RIGHT, i, j) >= g->run-1 ){
-                if(mat[i][j] == BLACK)
+            cell color = board_get(g->b, make_pos(i,j));
+            if(num_run(g->b, color, RIGHT, i, j) >= g->run-1 || 
+            num_run(g->b, color, DOWN, i, j) >= g->run-1 || 
+            num_run(g->b, color, UP_RIGHT, i, j) >= g->run-1 ||
+            num_run(g->b, color, DOWN_RIGHT, i, j) >= g->run-1 ){
+                if(color == BLACK)
                     black_win ++;
                 else 
                     white_win ++;
@@ -165,7 +175,7 @@ outcome game_outcome(game* g){
     }
 
     // output winning outcome 
-    if(black_win > 0 && white_win > 0){
+    if((black_win > 0 && white_win > 0) || check_full(g->b)){
         return DRAW;
     } else if(black_win > 0 && white_win == 0){
         return BLACK_WIN;
