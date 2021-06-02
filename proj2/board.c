@@ -148,6 +148,23 @@ void board_show(board* b){
     }
 }
 
+// [helper function: set ith bit in a number 1]
+unsigned int setOne(unsigned int num, unsigned int i){
+    if((num>>i & 1) == 0){
+        return num | (1 << i);
+    } else {
+        return num;
+    }
+}
+// [helper function: set ith bit in a number 0]
+unsigned int setZero(unsigned int num, unsigned int i){
+    if((num>>i & 1) == 1){
+        return num ^ (1 << i);
+    } else {
+        return num;
+    }
+}
+
 // get an element of the board
 cell board_get(board* b, pos p){
     if(p.r>b->height-1 || p.r<0 || p.c<0 || p.c>b->width-1){
@@ -170,9 +187,17 @@ cell board_get(board* b, pos p){
 void board_set(board* b, pos p, cell c){
     if(b->type == MATRIX){
         b->u.matrix[p.r][p.c] = c;
-    } else {
-        fprintf(stderr, "board_set: error BITS\n");
-        exit(1);
+    } 
+    // BITS board set
+    else {
+        unsigned int count = p.r * b->width*2 + p.c*2;
+        int index = count / 32;
+        unsigned int k = count % 32;
+        printf("set index: %d\n", index);
+        printf("set pos: %u\n", k);
+        if(c == BLACK){
+            
+        }
     }
 }
 

@@ -50,5 +50,12 @@ cell board_get(board* b, pos p);
 // set an element of the board
 void board_set(board* b, pos p, cell c);
 
+
+// [helper function: set ith bit in a number 1]
+unsigned int setOne(unsigned int num, unsigned int i);
+
+// [helper function: set ith bit in a number 0]
+unsigned int setZero(unsigned int num, unsigned int i);
+
 #endif /* BOARD_H */
  
