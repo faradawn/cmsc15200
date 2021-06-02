@@ -18,5 +18,5 @@ unsigned int setZero(unsigned int num, unsigned int i){
 }
 
 int main(){
-    printf("%u\n", setZero(0b1110, 2));
+    printf("%u\n", setOne(0, 2));
 }

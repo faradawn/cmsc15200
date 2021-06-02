@@ -30,7 +30,7 @@ board_rep make_rep(unsigned int width, unsigned int height, enum type type){
 
     // make BITS board 
     else { 
-        int arr_len = width * height % 16 + 1;
+        int arr_len = width * height / 16 + 1;
         printf("bits array length: %d\n", arr_len);
         unsigned int* bits = (unsigned int*)(calloc(arr_len, sizeof(unsigned int)));
         if(bits == NULL){
@@ -129,15 +129,17 @@ void board_show(board* b){
             print_index(i);
             printf(" ");
             for(j = 0; j<b->width; j++){
-                if(element >> 2 & 0b01)
+                
+                if(element & 0b01)
                     printf("*");
-                else if(element >> 2 & 0b10)
+                else if(element & 0b10)
                     printf("o");
                 else
                     printf(".");
                 count ++;
+                element = element >> 2;
                 // switch to next element when 16 cells are printed
-                if(count >= 15){
+                if(count >= 16){
                     index ++;
                     element = b->u.bits[index];
                     count = 0;
@@ -171,16 +173,20 @@ cell board_get(board* b, pos p){
         fprintf(stderr, "board_get: position out: (%d, %d)\n", p.r, p.c);
         exit(1);
     }
-    switch (b->type)
-    {
-    case MATRIX:
+    if(b->type == MATRIX){
         return b->u.matrix[p.r][p.c];
-    case BITS:
-        fprintf(stderr, "board_get: error BITS\n");
-        exit(1);
-    default:
-        break;
+    } else {
+        unsigned int count = p.r * b->width*2 + p.c*2;
+        unsigned int k = count % 32, index = count / 32;
+        unsigned int element = b->u.bits[index];
+        if(element>>k & 1) // first bit is 1 -> white
+            return WHITE;
+        else if (element>>(k+1) & 1) // second bit is 1 -> black
+            return BLACK;
+        else 
+            return EMPTY;
     }
+
 }
 
 // set an element of the board
@@ -191,14 +197,22 @@ void board_set(board* b, pos p, cell c){
     // BITS board set
     else {
         unsigned int count = p.r * b->width*2 + p.c*2;
-        int index = count / 32;
-        unsigned int k = count % 32;
+        unsigned int k = count % 32, index = count / 32;
+        unsigned int element = b->u.bits[index];
         printf("set index: %d\n", index);
-        printf("set pos: %u\n", k);
+        printf("set k: %u\n", k);
         if(c == BLACK){
-            
+            element = setOne(element, k);
+            b->u.bits[index] = setZero(element, k+1);
+        } else if(c == WHITE){
+            element = setZero(element, k);
+            b->u.bits[index] = setOne(element, k+1);
+        } else {
+            element = setZero(element, k);
+            b->u.bits[index] = setZero(element, k+1);
         }
     }
+    
 }
 
 int main(){
@@ -209,6 +223,15 @@ int main(){
     board_show(b);
     
     // place piece 
+    board_set(b, make_pos(3,6), BLACK);
+    board_show(b);
+    board_set(b, make_pos(3,7), WHITE);
+    board_show(b);
+    board_set(b, make_pos(3,8), BLACK);
+    board_show(b);
+    printf("got: %d\n", board_get(b, make_pos(3,5)));
+    printf("got: %d\n", board_get(b, make_pos(3,7)));
+    printf("got: %d\n", board_get(b, make_pos(3,8)));
 
     // free board
     printf("\n>> free board:\n");
