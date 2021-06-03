@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "header.h"
 
+/* 
+    bits operations
+    mapping function
+*/
+
 int sqr(int a){
     return a*a;
 }

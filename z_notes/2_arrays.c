@@ -3,6 +3,12 @@
 #include <math.h>
 #include <string.h>
 
+/*
+- array of char
+- array of pointers (struct) 
+- return array as pointer 
+*/
+
 // show function
 
 int main(){
