@@ -4,6 +4,12 @@
 #include <math.h>
 #include <string.h>
 
+/*
+    stack: push, pop
+    queue: enqueue, dequeue
+    double linked list
+*/
+
 // error segmentation! malloc sizeof (intlist*)
 
 // stack allocated array can't shrink.
