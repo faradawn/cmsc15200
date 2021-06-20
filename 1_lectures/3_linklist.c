@@ -1,14 +1,16 @@
-#include "header.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
 
-/*
-    stack: push, pop
-    queue: enqueue, dequeue
-    double linked list
-*/
+
+typedef struct intlist intlist;
+
+struct intlist {
+    int val;
+    intlist* next;
+};
 
 // error segmentation! malloc sizeof (intlist*)
 
